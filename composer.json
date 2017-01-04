@@ -1,0 +1,93 @@
+{
+  "name": "mobilejazz/yii2-mj-cms",
+  "description": "Yii 2 CMS Module developed by MobileJazz",
+  "keywords": [
+    "yii2",
+    "extension",
+    "cms"
+  ],
+  "homepage": "https://github.com/mobilejazz/yii2-mj-cms",
+  "type": "yii2-extension",
+  "license": "Apache-2.0",
+  "support": {
+    "issues": "https://github.com/mobilejazz/yii2-mj-cms/issues?state=open",
+    "source": "https://github.com/mobilejazz/yii2-mj-cms"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require": {
+    "php": ">=5.5.0",
+    "yiisoft/yii2": "2.0.*",
+    "dmstr/yii2-bootstrap": "*",
+    "yiisoft/yii2-bootstrap": "2.0.*",
+    "yiisoft/yii2-swiftmailer": "2.0.*",
+    "yiisoft/yii2-jui": "2.0.*",
+    "yiisoft/yii2-imagine": "2.0.*",
+    "fishvision/yii2-migrate": "1.0.*",
+    "trntv/yii2-datetime-widget": "1.0.*",
+    "trntv/yii2-aceeditor": "2.0.*",
+    "trntv/probe": "0.2.*",
+    "phpoffice/phpexcel": "*",
+    "mobilejazz/yii2-oauth2-server": "2.0.*",
+    "mobilejazz/yii2-export": "dev-enhancements",
+    "schmunk42/yii2-giiant": "0.8.*",
+    "bshaffer/oauth2-server-php": "v1.6",
+    "kartik-v/yii2-editable": "1.7.*",
+    "kartik-v/yii2-widgets": "3.4.*",
+    "kartik-v/yii2-widget-alert": "1.1.*",
+    "kartik-v/yii2-builder": "1.6.*",
+    "kartik-v/yii2-mpdf": "1.0.*",
+    "kartik-v/yii2-password": "1.5.*",
+    "2amigos/yii2-file-upload-widget": "1.0.*",
+    "2amigos/yii2-date-picker-widget": "1.0.*",
+    "unclead/yii2-multiple-input": "1.4.*",
+    "lavrentiev/yii2-toastr": "2.0.*",
+    "2amigos/yii2-translateable-behavior": "*",
+    "bower-asset/admin-lte": "2.3.*",
+    "bower-asset/font-awesome": "4.5.*",
+    "bower-asset/html5shiv": "3.7.*",
+    "bower-asset/jquery-slimscroll": "1.3.*",
+    "bower-asset/flot": "0.8.*",
+    "bower-asset/respond": "1.4.*",
+    "bower-asset/modernizr": "2.8.*",
+    "bower-asset/nwmatcher": "1.3.*",
+    "bower-asset/rem-unit-polyfill": "1.3.*",
+    "bower-asset/selectivizr": "1.0.*",
+    "bower-asset/jquery-placeholder": "2.0.*",
+    "bower-asset/jquery.cookie": "1.4.*",
+    "bower-asset/normalize.css": "3.0.*",
+    "bower-asset/fastclick": "1.0.*",
+    "bower-asset/flag-icon-css": "1.2.*",
+    "bower-asset/foundation": "5.5.*",
+    "bower-asset/foundation-datepicker": "1.5.*",
+    "bower-asset/iframe-resizer": "3.5.*",
+    "bower-asset/sweetalert": "*",
+    "bower-asset/clipboard": "1.5.*",
+    "bower-asset/spin.js": "2.3.*",
+    "bower-asset/html5-history-api": "4.2.7.0",
+    "bower-asset/ckeditor": "4.5.*",
+    "skeeks/yii2-assets-auto-compress": "1.2.2",
+    "bower-asset/blueimp-load-image": "2.6.2",
+    "bower-asset/blueimp-canvas-to-blob": "3.3.0",
+    "bower-asset/blueimp-tmpl": "3.4.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "mobilejazz\\yii2\\cms\\": "src/"
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/mobilejazz-contrib/yii2-oauth2-server"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/mobilejazz-contrib/yii2-export"
+    }
+  ]
+}

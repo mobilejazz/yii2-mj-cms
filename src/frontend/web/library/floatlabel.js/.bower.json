@@ -1,0 +1,30 @@
+{
+  "name": "floatlabel.js",
+  "repo": "clubdesign/floatlabels.js",
+  "homepage": "https://github.com/clubdesign/floatlabels.js",
+  "description": "Follows the famous Float Label Pattern. Built on jQuery.",
+  "keywords": [
+    "floatlabel",
+    "float",
+    "label"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "jQuery": "latest"
+  },
+  "development": {},
+  "ignore": [
+    "test.html",
+    "README.md",
+    "MIT.LICENSE"
+  ],
+  "_release": "1f4e01f09b",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "1f4e01f09b9510534b88bf4a0247fede14f9de66"
+  },
+  "_source": "git://github.com/cduicu/floatlabels.js.git",
+  "_target": "*",
+  "_originalSource": "git://github.com/cduicu/floatlabels.js.git"
+}

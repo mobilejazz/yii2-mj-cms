@@ -1,0 +1,5 @@
+# Declare files that will always have LF line endings on checkout.
+# this is so scripts keep working on windows deployments
+*.sh text eol=lf
+docker/* text eol=lf
+*.conf text eol=lf

@@ -1,0 +1,35 @@
+body {
+    padding-top: 70px;
+}
+
+.page-title {
+    margin-bottom: 40px;
+}
+
+.page-content {
+    margin-bottom: 40px;
+}
+
+.form-login {
+    margin-bottom: 40px;
+}
+
+/* Additional form styling */
+.validation {
+    font-size: 12px;
+}
+
+.has-success .validation {
+    color: #3c763d;
+    padding-top: 10px;
+}
+
+.has-warning .validation {
+    color: #8a6d3b;
+    padding-top: 10px;
+}
+
+.has-error .validation {
+    color: #a94442;
+    padding-top: 10px;
+}
