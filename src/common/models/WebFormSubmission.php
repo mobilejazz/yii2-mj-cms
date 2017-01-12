@@ -3,7 +3,6 @@
 namespace mobilejazz\yii2\cms\common\models;
 
 use mobilejazz\yii2\cms\common\components\TimeStampActiveRecord;
-use yii;
 use yii\base\DynamicModel;
 use yii\data\ArrayDataProvider;
 
@@ -67,7 +66,8 @@ class WebFormSubmission extends TimeStampActiveRecord
         unset($submission, $submissions, $field, $fields, $data);
 
         return new ArrayDataProvider([
-            'allModels' => $f,
+            'allModels'  => $f,
+            'pagination' => false,
         ]);
     }
 
@@ -109,13 +109,13 @@ class WebFormSubmission extends TimeStampActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'         => Yii::t('backend', 'ID'),
-            'web_form'   => Yii::t('backend', 'Web Form'),
-            'language'   => Yii::t('backend', 'Language'),
-            'submission' => Yii::t('backend', 'Submission'),
-            'exported'   => Yii::t('backend', 'Exported'),
-            'created_at' => Yii::t('backend', 'Created At'),
-            'updated_at' => Yii::t('backend', 'Updated At'),
+            'id'         => \Yii::t('backend', 'ID'),
+            'web_form'   => \Yii::t('backend', 'Web Form'),
+            'language'   => \Yii::t('backend', 'Language'),
+            'submission' => \Yii::t('backend', 'Submission'),
+            'exported'   => \Yii::t('backend', 'Exported'),
+            'created_at' => \Yii::t('backend', 'Created At'),
+            'updated_at' => \Yii::t('backend', 'Updated At'),
         ];
     }
 
@@ -191,7 +191,7 @@ class WebFormSubmission extends TimeStampActiveRecord
     {
         $count = count($this->decodedMails());
 
-        return ucfirst(Yii::t('backend', '{n, spellout}', [ 'n' => $count, ]));
+        return ucfirst(\Yii::t('backend', '{n, spellout}', [ 'n' => $count, ]));
     }
 
 
@@ -205,7 +205,7 @@ class WebFormSubmission extends TimeStampActiveRecord
     {
         $count = count($this->decodedSubmission()[ 'fields' ]);
 
-        return ucfirst(Yii::t('backend', '{n, spellout}', [ 'n' => $count, ]));
+        return ucfirst(\Yii::t('backend', '{n, spellout}', [ 'n' => $count, ]));
     }
 
 
