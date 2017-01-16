@@ -64,6 +64,7 @@ $this->params[ 'breadcrumbs' ][] = $this->title;
             {
                 return ContentMetaTag::find()->where([
                     'content_id' => $model->id,
+                    'language' => Yii::$app->language
                 ])->andWhere([ 'like', 'name', 'description' ])->one()->content;
             },
             'format' => 'text',
