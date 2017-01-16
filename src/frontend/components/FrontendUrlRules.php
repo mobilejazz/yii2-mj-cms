@@ -109,7 +109,14 @@ class FrontendUrlRules extends Object implements UrlRuleInterface
         }
         else
         {
-            $url = $route . '?' . http_build_query($params);
+            $url = $route;
+        }
+
+        unset($params['lang']);
+        unset($params['slug']);
+
+        if(count($params) > 0){
+            $url = $url . '?' . http_build_query($params);
         }
 
         $baseUrl = $this->getBaseUrl();
