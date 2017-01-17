@@ -21,7 +21,7 @@
     function refreshContetUI(id, msg, opened_boxes) {
         var block = $('.actualcontent');
         block.empty();
-        block.load('/admin/content-source/update-partial?id=' + id, function () {
+        block.load('update-partial?id=' + id, function () {
             window.reloadAllHandlers();
             showContentLoaderActivator(false);
             var last_opened = $(document);
