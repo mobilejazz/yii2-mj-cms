@@ -511,7 +511,6 @@ class User extends TimeStampActiveRecord implements IdentityInterface, UserCrede
         return $this->getPrimaryKey();
     }
 
-
     public function getStatus()
     {
         switch ($this->status)

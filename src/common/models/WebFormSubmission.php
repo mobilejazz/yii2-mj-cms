@@ -3,7 +3,6 @@
 namespace mobilejazz\yii2\cms\common\models;
 
 use mobilejazz\yii2\cms\common\components\TimeStampActiveRecord;
-use yii;
 use yii\base\DynamicModel;
 use yii\data\ArrayDataProvider;
 
@@ -57,7 +56,8 @@ class WebFormSubmission extends TimeStampActiveRecord
             $data  = json_decode($submission->fields, true);
             foreach ($data as $field)
             {
-                $model->defineAttribute($field[ 'field_name' ], stripslashes(strip_tags($field[ 'user_response' ])));
+                $model->defineAttribute(strip_tags(stripslashes(strtolower($field[ 'field_name' ]))),
+                    stripslashes(strip_tags($field[ 'user_response' ])));
             }
             $model->defineAttribute(\Yii::t('backend', 'Date'), date(DATE_ATOM, $submission->created_at));
             $model->defineAttribute('id', $submission->id);
@@ -66,9 +66,12 @@ class WebFormSubmission extends TimeStampActiveRecord
         }
         unset($submission, $submissions, $field, $fields, $data);
 
-        return new ArrayDataProvider([
-            'allModels' => $f,
+        $dp = new ArrayDataProvider([
+            'allModels'  => $f,
+            'pagination' => false,
         ]);
+
+        return $dp;
     }
 
 
@@ -109,13 +112,13 @@ class WebFormSubmission extends TimeStampActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'         => Yii::t('backend', 'ID'),
-            'web_form'   => Yii::t('backend', 'Web Form'),
-            'language'   => Yii::t('backend', 'Language'),
-            'submission' => Yii::t('backend', 'Submission'),
-            'exported'   => Yii::t('backend', 'Exported'),
-            'created_at' => Yii::t('backend', 'Created At'),
-            'updated_at' => Yii::t('backend', 'Updated At'),
+            'id'         => \Yii::t('backend', 'ID'),
+            'web_form'   => \Yii::t('backend', 'Web Form'),
+            'language'   => \Yii::t('backend', 'Language'),
+            'submission' => \Yii::t('backend', 'Submission'),
+            'exported'   => \Yii::t('backend', 'Exported'),
+            'created_at' => \Yii::t('backend', 'Created At'),
+            'updated_at' => \Yii::t('backend', 'Updated At'),
         ];
     }
 
@@ -191,7 +194,7 @@ class WebFormSubmission extends TimeStampActiveRecord
     {
         $count = count($this->decodedMails());
 
-        return ucfirst(Yii::t('backend', '{n, spellout}', [ 'n' => $count, ]));
+        return ucfirst(\Yii::t('backend', '{n, spellout}', [ 'n' => $count, ]));
     }
 
 
@@ -205,7 +208,7 @@ class WebFormSubmission extends TimeStampActiveRecord
     {
         $count = count($this->decodedSubmission()[ 'fields' ]);
 
-        return ucfirst(Yii::t('backend', '{n, spellout}', [ 'n' => $count, ]));
+        return ucfirst(\Yii::t('backend', '{n, spellout}', [ 'n' => $count, ]));
     }
 
 
