@@ -149,7 +149,9 @@ class DefaultController extends Controller
                 $this->copyMedia(realpath('files'), $tmp_folder);
                 $this->makeZipFile($tmp_folder);
 
-                \Yii::$app->response->sendFile($tmp_folder . '/files.zip');
+                $file_path = $tmp_folder . '/files.zip';
+                ob_end_clean();
+                \Yii::$app->response->sendFile($file_path);
 
             }
             catch (yii\base\Exception $e)
