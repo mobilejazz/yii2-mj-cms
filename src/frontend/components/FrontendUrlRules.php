@@ -215,8 +215,7 @@ class FrontendUrlRules extends Object implements UrlRuleInterface
 
         if (isset($baseUrl) && strlen($baseUrl) > 0)
         {
-            $pattern  = "/$baseUrl/";
-            $pathInfo = preg_replace($pattern, '', $pathInfo, 1);   // remove the first instance of base url
+            $pathInfo = str_replace($baseUrl, '', $pathInfo); // remove the base url if present
             Yii::info("Removed baseUrl from pathInfo: pathInfo = $pathInfo", __METHOD__);
         }
 
