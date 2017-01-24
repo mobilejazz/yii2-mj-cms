@@ -211,13 +211,13 @@ class FrontendUrlRules extends Object implements UrlRuleInterface
             $pathInfo = '/';
         }
 
-        Yii::trace("Parsing request: pathInfo = '$pathInfo', baseUrl = '$baseUrl'", __METHOD__);
+        Yii::info("Parsing request: pathInfo = '$pathInfo', baseUrl = '$baseUrl'", __METHOD__);
 
         if (isset($baseUrl) && strlen($baseUrl) > 0)
         {
             $pattern  = "/$baseUrl/";
             $pathInfo = preg_replace($pattern, '', $pathInfo, 1);   // remove the first instance of base url
-            Yii::trace("Removed baseUrl from pathInfo: pathInfo = $pathInfo", __METHOD__);
+            Yii::info("Removed baseUrl from pathInfo: pathInfo = $pathInfo", __METHOD__);
         }
 
         // Actions that need to escape the content management url system.
@@ -231,7 +231,7 @@ class FrontendUrlRules extends Object implements UrlRuleInterface
                 continue;
             }
 
-            Yii::trace("Static route found: path = $path, translatedPath = $translatedPath, route = $route", __METHOD__);
+            Yii::info("Static route found: path = $path, translatedPath = $translatedPath, route = $route", __METHOD__);
 
             return [ $route, [] ];
         }
