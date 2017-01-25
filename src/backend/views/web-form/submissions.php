@@ -31,6 +31,7 @@ $allExport      = ExportMenu::widget([
     'dataProvider'       => WebFormSubmission::getDataToArray($id, $allSubmissions),
     'fontAwesome'        => true,
     'showColumnSelector' => false,
+    'target'             => ExportMenu::TARGET_BLANK,
     'encoding'           => 'UTF-16',
     'dropdownOptions'    => [
         'label'   => ' ' . Yii::t('backend', 'Export All') . ' ',
@@ -81,6 +82,7 @@ if (!empty($allNonExportedSubmissions))
         'dataProvider'       => WebFormSubmission::getDataToArray($id, $allNonExportedSubmissions),
         'fontAwesome'        => true,
         'showColumnSelector' => false,
+        'target'             => ExportMenu::TARGET_BLANK,
         'encoding'           => 'UTF-16',
         'dropdownOptions'    => [
             'label'   => ' ' . Yii::t('backend', 'Export Non Exported') . ' ',
