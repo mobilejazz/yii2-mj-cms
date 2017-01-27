@@ -3,7 +3,7 @@
 namespace mobilejazz\yii2\cms\common\models;
 
 use mobilejazz\yii2\cms\common\components\TimeStampActiveRecord;
-use yii;
+use Yii;
 use yii\db\ActiveQuery;
 use yii\validators\EmailValidator;
 
@@ -19,6 +19,7 @@ use yii\validators\EmailValidator;
  * @property string  $description
  * @property string  $script
  * @property string  $message
+ * @property string  $css_class
  * @property integer $created_at
  * @property integer $updated_at
  *
@@ -65,7 +66,7 @@ class WebFormDetail extends TimeStampActiveRecord
             [ [ 'web_form', 'language' ], 'required' ],
             [ [ 'web_form', 'created_at', 'updated_at', 'send_mail' ], 'integer' ],
             [ [ 'language' ], 'string', 'max' => 16, ],
-            [ [ 'description', 'script', 'message' ], 'string' ],
+            [ [ 'description', 'script', 'message', 'css_class' ], 'string' ],
             [ [ 'title', 'mail' ], 'string', 'max' => 255 ],
             [ 'emails', 'validateEmails' ],
         ];

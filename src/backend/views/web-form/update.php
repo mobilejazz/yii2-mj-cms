@@ -65,6 +65,9 @@ $form                            = ActiveForm::begin();
                   ->label(false)
                   ->hint(Yii::t('backend', 'Where do you want the results sent?'));
 
+        echo $form->field($details, 'css_class')
+                  ->textInput([ 'maxlength' => true, 'placeholder' => Yii::t('backend', 'Custom CSS class to include within the <form> element') ]);
+
         echo $form->field($details, 'send_mail')
                   ->checkbox();
 

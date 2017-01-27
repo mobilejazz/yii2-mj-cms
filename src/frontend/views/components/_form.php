@@ -9,6 +9,7 @@ use mobilejazz\yii2\cms\frontend\widgets\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
+
 /**
  * This file is the one that has to render the fields for the
  * WebForms that have been created from the backend.
@@ -22,7 +23,7 @@ use yii\web\NotFoundHttpException;
  * @var ContentComponent $component
  */
 // GET the Form ID.
-$form_id = intval($component->componentFields[ 0 ]->text);
+$form_id       = intval($component->componentFields[ 0 ]->text);
 $parsed_fields = Yii::$app->session->get('parsed_fields');
 if (!isset($form_id) || is_null($form_id))
 {
@@ -40,7 +41,8 @@ if (!isset($web_form) || is_null($web_form))
 $rows = $web_form->getOrderedWebFormRows(Yii::$app->language);
 ?>
     <!-- Form description -->
-<?php if ( isset( $web_form_detail->description ) && strlen( $web_form_detail->description ) > 1 ) { ?>
+<?php if (isset($web_form_detail->description) && strlen($web_form_detail->description) > 1)
+{ ?>
     <div class="form-description text-with-heading">
         <div class="row">
             <div class="small-12 medium-10 medium-offset-1 columns">
@@ -54,14 +56,15 @@ $rows = $web_form->getOrderedWebFormRows(Yii::$app->language);
         <div class="row">
             <div class="small-12 medium-6 medium-offset-3 columns">
                 <?php
+                $custom_css = $web_form_detail->css_class;
                 // Begin form
                 $form = ActiveForm::begin([
-                    'id' => 'floating-label-form',
+                    'id'      => 'floating-label-form',
                     'action'  => Url::to([
                         '/submit',
                     ]),
                     'options' => [
-                        'class' => 'js-form'
+                        'class' => 'js-form' . ' ' . $custom_css,
                     ]
                 ]);
                 // Fields
@@ -73,7 +76,7 @@ $rows = $web_form->getOrderedWebFormRows(Yii::$app->language);
                     }
                     /** @var WebFormRowField[] $fields */
                     $fields = $row->getOrderedWebFormRowFields(Yii::$app->language);
-                    $cols = count($fields);
+                    $cols   = count($fields);
                     if ($cols > 0)
                     {
                         // CALCULATE THE GRID POSITIONING.
@@ -107,7 +110,7 @@ $rows = $web_form->getOrderedWebFormRows(Yii::$app->language);
                                 ],
                                 'inputOptions' => [
                                     'prepend' => '<label class="ie-only">' . $field->name . '</label>',
-                                    'append' => isset($field->hint) && strlen($field->hint) > 1 ? '<i class="fa fa-info-circle js-input-info"></i>' : null
+                                    'append'  => isset($field->hint) && strlen($field->hint) > 1 ? '<i class="fa fa-info-circle js-input-info"></i>' : null
                                 ]
                             ]);
                             echo $widget;
@@ -117,7 +120,7 @@ $rows = $web_form->getOrderedWebFormRows(Yii::$app->language);
                     }
                 }
                 // Submit
-                echo Html::submitButton( Yii::t('app', 'Submit'), [ 'class' => 'button' ]);
+                echo Html::submitButton(Yii::t('app', 'Submit'), [ 'class' => 'button' ]);
                 // End form
                 ActiveForm::end();
                 ?>
