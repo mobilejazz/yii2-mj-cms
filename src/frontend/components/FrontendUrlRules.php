@@ -77,11 +77,6 @@ class FrontendUrlRules extends Object implements UrlRuleInterface
 
         $this->init();
 
-        $slug = $params[ 'slug' ];
-        $lang = $params[ 'lang' ];
-
-        Yii::trace("Creating url for route = $route, slug = $slug, lang = $lang", __METHOD__);
-
         //If a parameter is defined and not empty - add it to the URL
         $url = '';
 
