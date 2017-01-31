@@ -64,24 +64,13 @@ class BackendUrlRules extends Object implements UrlRuleInterface
 
     public function createUrl($manager, $route, $params)
     {
-        if (count($params) < 1)
-        {
-            return false;
-        }
+        $routeComponents = explode('/', $route);
+        $controller = $routeComponents[0];
 
-        $path           = $params[ 0 ];
-        $pathComponents = explode('/', $path);
+        if(!in_array($controller, $this->controllers)) return false;
 
-        if ($pathComponents[ 0 ] != $this->modulePrefix)
-        {
-            return false;
-        }
-
-        $params[ 0 ] = implode('/', array_slice($pathComponents, 1));         // drop the module prefix
-        $result      = $manager->createUrl($params);                             // create the url
-        $params[ 0 ] = $path;                                                 // return the path to original value
-
-        return $result;
+        // add module prefix
+        return $manager->createUrl(ArrayHelper::merge([$this->modulePrefix . '/' . $route], $params));
     }
 
 }
