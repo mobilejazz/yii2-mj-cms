@@ -120,7 +120,7 @@ class FrontendUrlRules extends Object implements UrlRuleInterface
 
         if (isset($baseUrl))
         {
-            $url = $baseUrl . $url;
+            $url = $baseUrl . '/' . $url;
         }
 
         Yii::trace("Created url = $url", __METHOD__);
