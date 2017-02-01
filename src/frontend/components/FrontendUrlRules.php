@@ -114,17 +114,6 @@ class FrontendUrlRules extends Object implements UrlRuleInterface
             $url = $url . '?' . http_build_query($params);
         }
 
-        $baseUrl = $this->getBaseUrl();
-
-        Yii::trace("Base url = $baseUrl", __METHOD__);
-
-        if (isset($baseUrl))
-        {
-            $url = $baseUrl . '/' . $url;
-        }
-
-        Yii::trace("Created url = $url", __METHOD__);
-
         return $url;
     }
 
