@@ -26,7 +26,7 @@ class SidebarConfig extends Component
 
             // Determine if visible
 
-            $visible = $entry['visible'];
+            $visible = isset($entry['visible']) ? $entry['visible'] : true;
 
             if(isset($visible) && is_string($visible)){
 
@@ -35,9 +35,8 @@ class SidebarConfig extends Component
                 $reflection = new ReflectionClass($visible);
                 if(!$reflection->hasMethod('isAllowed')) throw new Exception("Method isAllowed not found on instance of $visible");
 
-                $object = $reflection->newInstance();
                 $method = $reflection->getMethod('isAllowed');
-                $visible = $method->invoke($object, Yii::$app->user->identity);
+                $visible = $method->invoke(null, Yii::$app->user->identity);
                 $entry['visible'] = $visible;
 
             }
