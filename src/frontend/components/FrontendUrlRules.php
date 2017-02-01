@@ -49,14 +49,9 @@ class FrontendUrlRules extends Object implements UrlRuleInterface
     {
         $url = $this->createUrl(null, $route, $params);
 
-        if ($url == false)
+        if (!($url && strpos($url, '://')))
         {
             $url = Yii::$app->urlManager->getBaseUrl();
-        }
-
-        if (strpos($url, '://') === false)
-        {
-            $url = $this->getHostInfo() . $url;
         }
 
         return $url;
