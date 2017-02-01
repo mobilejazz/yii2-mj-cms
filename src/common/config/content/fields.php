@@ -253,8 +253,6 @@ return [
 
     Fields::FIELD_CHECKBOX => [
         'name'   => Yii::t('app', 'Checkbox'),
-        'rules'  => [
-        ],
         'widget' => function ($form = null, $field, $label, $placeholder, $hint, $options)
         {
 

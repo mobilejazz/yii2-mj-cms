@@ -56,7 +56,7 @@ class FrontendUrlRules extends Object implements UrlRuleInterface
 
         if (strpos($url, '://') === false)
         {
-            $url = $this->getHostInfo() . $url;
+            $url = $this->getBaseUrl() . $url;
         }
 
         return $url;
@@ -76,11 +76,6 @@ class FrontendUrlRules extends Object implements UrlRuleInterface
     {
 
         $this->init();
-
-        $slug = $params[ 'slug' ];
-        $lang = $params[ 'lang' ];
-
-        Yii::trace("Creating url for route = $route, slug = $slug, lang = $lang", __METHOD__);
 
         //If a parameter is defined and not empty - add it to the URL
         $url = '';
@@ -118,17 +113,6 @@ class FrontendUrlRules extends Object implements UrlRuleInterface
         if(count($params) > 0){
             $url = $url . '?' . http_build_query($params);
         }
-
-        $baseUrl = $this->getBaseUrl();
-
-        Yii::trace("Base url = $baseUrl", __METHOD__);
-
-        if (isset($baseUrl))
-        {
-            $url = $baseUrl . $url;
-        }
-
-        Yii::trace("Created url = $url", __METHOD__);
 
         return $url;
     }
