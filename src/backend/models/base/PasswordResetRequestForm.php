@@ -2,7 +2,7 @@
 namespace mobilejazz\yii2\cms\backend\models\base;
 
 use mobilejazz\yii2\cms\common\models\User;
-use yii;
+use Yii;
 use yii\base\Model;
 use yii\db\StaleObjectException;
 
@@ -27,7 +27,7 @@ abstract class PasswordResetRequestForm extends Model
             [
                 'email',
                 'exist',
-                'targetClass' => Yii::$app->user->identityClass,
+                'targetClass' => User::className(),
                 'message'     => \Yii::t('app', 'There is no user with such email')
             ],
         ];

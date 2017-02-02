@@ -53,7 +53,7 @@ class LocaleBehavior extends Behavior
         }
         else
         {
-            $userLocale = Yii::$app->language;
+            $userLocale = str_replace('-', '_', Yii::$app->language);
 
             if ($this->enablePreferredLanguage)
             {

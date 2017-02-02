@@ -56,8 +56,9 @@ class WebFormSubmission extends TimeStampActiveRecord
             $data  = json_decode($submission->fields, true);
             foreach ($data as $field)
             {
-                $model->defineAttribute(strip_tags(stripslashes(strtolower($field[ 'field_name' ]))),
-                    stripslashes(strip_tags($field[ 'user_response' ])));
+                $atr_name  = str_replace(" ", "_", substr(strip_tags(stripslashes(strtolower($field[ 'field_name' ]))), 0, 10));
+                $atr_value = stripslashes(strip_tags($field[ 'user_response' ]));
+                $model->defineAttribute($atr_name, $atr_value);
             }
             $model->defineAttribute(\Yii::t('backend', 'Date'), date(DATE_ATOM, $submission->created_at));
             $model->defineAttribute('id', $submission->id);
