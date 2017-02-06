@@ -21,6 +21,16 @@ foreach ($tags as $tag)
         'content' => $tag->content
     ]);
 }
+// Register Relationships.
+$rels = $model->getCurrentRels();
+foreach ($rels as $rel)
+{
+    $this->registerMetaTag([
+        'rel'      => $rel->rel,
+        'hreflang' => $rel->hreflang,
+        'href'     => $rel->href,
+    ]);
+}
 ?>
 <div class="site-content">
     <?php

@@ -2,13 +2,14 @@
 
 use mobilejazz\yii2\cms\common\models\ContentMetaTag;
 use mobilejazz\yii2\cms\common\models\ContentSource;
+use mobilejazz\yii2\cms\frontend\models\ContentSourceSearch;
 use yii\grid\GridView;
 use yii\helpers\Html;
 
 /**
- * @var yii\web\View                        $this
- * @var yii\data\ActiveDataProvider         $dataProvider
- * @var \mobilejazz\yii2\cms\frontend\models\ContentSourceSearch $searchModel
+ * @var yii\web\View                $this
+ * @var yii\data\ActiveDataProvider $dataProvider
+ * @var ContentSourceSearch         $searchModel
  */
 
 $this->title                     = Yii::t('app', 'Search results');
@@ -62,10 +63,13 @@ $this->params[ 'breadcrumbs' ][] = $this->title;
             'label'  => \Yii::t('app', 'Description'),
             'value'  => function ($model)
             {
-                return ContentMetaTag::find()->where([
-                    'content_id' => $model->id,
-                    'language' => Yii::$app->language
-                ])->andWhere([ 'like', 'name', 'description' ])->one()->content;
+                return ContentMetaTag::find()
+                                     ->where([
+                                         'content_id' => $model->id,
+                                         'language'   => Yii::$app->language
+                                     ])
+                                     ->andWhere([ 'like', 'name', 'description' ])
+                                     ->one()->content;
             },
             'format' => 'text',
         ],

@@ -2,6 +2,7 @@
 
 namespace mobilejazz\yii2\cms\backend\controllers;
 
+use dmstr\bootstrap\Tabs;
 use mobilejazz\yii2\cms\backend\models\search\LocaleSearch;
 use mobilejazz\yii2\cms\backend\modules\i18n\controllers\MessageController;
 use mobilejazz\yii2\cms\backend\modules\i18n\models\I18nMessage;
@@ -10,6 +11,7 @@ use mobilejazz\yii2\cms\common\AuthHelper;
 use mobilejazz\yii2\cms\common\models\ComponentField;
 use mobilejazz\yii2\cms\common\models\ContentComponent;
 use mobilejazz\yii2\cms\common\models\ContentMetaTag;
+use mobilejazz\yii2\cms\common\models\ContentRelationship;
 use mobilejazz\yii2\cms\common\models\ContentSlug;
 use mobilejazz\yii2\cms\common\models\ContentSource;
 use mobilejazz\yii2\cms\common\models\Locale;
@@ -20,8 +22,7 @@ use mobilejazz\yii2\cms\common\models\WebForm;
 use mobilejazz\yii2\cms\common\models\WebFormDetail;
 use mobilejazz\yii2\cms\common\models\WebFormRow;
 use mobilejazz\yii2\cms\common\models\WebFormRowField;
-use dmstr\bootstrap\Tabs;
-use yii;
+use Yii;
 use yii\filters\AccessControl;
 use yii\helpers\Url;
 use yii\web\Controller;
@@ -72,7 +73,7 @@ class LocaleController extends Controller
                         {
                             Yii::$app->session->setFlash('error',
                                 Yii::t('backend', 'Sorry, only Administrators and Translators can edit/create/update Languages.'));
-                            
+
                         }),
                     ],
                 ],
@@ -164,7 +165,7 @@ class LocaleController extends Controller
                             // ====== CONTENT COMPONENTS. DUPLICATE THE EXACT SAME STRUCTURE AS THE BASE LANGUAGE. ===== //
                             /** @var ContentComponent[] $components */
                             $components     = $content->getOrderedContentComponents($base);
-                            $duplicated_ids = [ ];
+                            $duplicated_ids = [];
                             foreach ($components as $component)
                             {
                                 if (in_array($component->id, $duplicated_ids))
@@ -407,11 +408,15 @@ class LocaleController extends Controller
             // ========================================
             $rows += ContentMetaTag::deleteAll([ 'language' => Locale::getIdentifier($model) ]);
             // ========================================
-            // 4 - i18m messages.
+            // 4 - Content relationships.
+            // ========================================
+            $rows += ContentRelationship::deleteAll([ 'language' => Locale::getIdentifier($model) ]);
+            // ========================================
+            // 5 - i18m messages.
             // ========================================
             $rows += I18nMessage::deleteAll([ 'language' => Locale::getIdentifier($model) ]);
             // ========================================
-            // 5 - Web Forms.
+            // 6 - Web Forms.
             // ========================================
             $rows += WebFormDetail::deleteAll([ 'language' => Locale::getIdentifier($model) ]);
             $rows += WebFormRow::deleteAll([ 'language' => Locale::getIdentifier($model) ]);
