@@ -163,6 +163,62 @@ $form                            = ActiveForm::begin([
 
             BoxPanel::end();
             // META TAGS END.
+            // META RELS START
+            BoxPanel::begin([
+                'title'       => Yii::t('backend', 'Content Relationships'),
+                'collapsible' => false,
+            ]);
+
+            echo Alert::widget([
+                'options' => [
+                    'class' => 'alert-warning',
+                ],
+                'body'    => \Yii::t('backend', 'Add as many Relationships as you wish. They will be rendered in the header of this content page.'),
+            ]);
+
+            echo $form->field($model, 'meta_rels')
+                      ->widget(MultipleInput::className(), [
+                          'limit'   => 7,
+                          'columns' => [
+                              [
+                                  'name'          => 'rel',
+                                  'enableError'   => true,
+                                  'title'         => \Yii::t('backend', 'Rel'),
+                                  'options'       => [
+                                      'style' => 'width: 150px;',
+                                  ],
+                                  'headerOptions' => [
+                                      'style' => 'width: 150px;',
+                                  ]
+                              ],
+                              [
+                                  'name'          => 'hreflang',
+                                  'enableError'   => true,
+                                  'title'         => \Yii::t('backend', 'Href Lang'),
+                                  'options'       => [
+                                      'style' => 'width: 150px;',
+                                  ],
+                                  'headerOptions' => [
+                                      'style' => 'width: 150px;',
+                                  ]
+                              ],
+                              [
+                                  'name'          => 'href',
+                                  'enableError'   => true,
+                                  'title'         => \Yii::t('backend', 'Href'),
+                                  'options'       => [
+                                      'style' => 'width: 100%;',
+                                  ],
+                                  'headerOptions' => [
+                                      'style' => 'width: 100%;',
+                                  ]
+                              ],
+                          ]
+                      ])
+                      ->label(false);
+
+            BoxPanel::end();
+            // META TAGS END.
         }
         ?>
 

@@ -2,6 +2,7 @@
 
 namespace mobilejazz\yii2\cms\backend\controllers;
 
+use dmstr\bootstrap\Tabs;
 use mobilejazz\yii2\cms\backend\models\search\ContentSourceSearch;
 use mobilejazz\yii2\cms\backend\models\search\ContentSourceTrashedSearch;
 use mobilejazz\yii2\cms\common\AuthHelper;
@@ -14,8 +15,7 @@ use mobilejazz\yii2\cms\common\models\Fields;
 use mobilejazz\yii2\cms\common\models\Locale;
 use mobilejazz\yii2\cms\common\models\User;
 use mobilejazz\yii2\cms\common\models\Views;
-use dmstr\bootstrap\Tabs;
-use yii;
+use Yii;
 use yii\base\DynamicModel;
 use yii\base\Model;
 use yii\filters\AccessControl;
@@ -190,7 +190,7 @@ class ContentSourceController extends Controller
      *
      * @param $id
      *
-     * @return $this
+     * @return ContentSourceController|\yii\console\Response|Response
      */
     public function actionAddField($id)
     {
@@ -309,7 +309,7 @@ class ContentSourceController extends Controller
      *
      * @param $id
      *
-     * @return $this
+     * @return array|ContentSourceController
      * @throws \Exception
      */
     public function actionComponentDelete($id)
@@ -318,7 +318,7 @@ class ContentSourceController extends Controller
         $component = $this->findComponent($id);
         $title     = $component->title;
         $content   = $component->content;
-        $arr       = [ ];
+        $arr       = [];
         if ($component->id != $component->group_id)
         {
             array_push($arr, $component->group_id);
@@ -344,7 +344,7 @@ class ContentSourceController extends Controller
      *
      * @param $id
      *
-     * @return $this
+     * @return array|ContentSourceController
      */
     public function actionComponentDuplicate($id)
     {
@@ -361,7 +361,7 @@ class ContentSourceController extends Controller
                 false);
         }
 
-        $arr = [ ];
+        $arr = [];
         if ($cmp->group_id != $cmp->id)
         {
             array_push($arr, $cmp->group_id);
@@ -426,7 +426,7 @@ class ContentSourceController extends Controller
      *
      * @param $id
      *
-     * @return $this
+     * @return array|ContentSourceController
      * @throws \Exception
      */
     public function actionComponentDeleteGroup($id)
@@ -462,7 +462,7 @@ class ContentSourceController extends Controller
      *
      * @param $id
      *
-     * @return $this
+     * @return ContentSourceController|\yii\console\Response|Response
      */
     public function actionComponentMoveWithinGroupUp($id)
     {
@@ -481,7 +481,7 @@ class ContentSourceController extends Controller
      *
      * @param $id
      *
-     * @return $this
+     * @return ContentSourceController|\yii\console\Response|Response
      */
     public function actionComponentMoveWithinGroupDown($id)
     {
@@ -540,9 +540,6 @@ class ContentSourceController extends Controller
                         {
                             $order = ContentComponent::create($component, $model, $locale, $order + 1, null)->order;
                         }
-
-                        // ====== CREATE DEFAULT DESCRIPTION METATAG =====
-
                     }
 
                     return $this->redirect(Url::previous());
@@ -597,7 +594,7 @@ class ContentSourceController extends Controller
 
             \Yii::$app->response->format = Response::FORMAT_JSON;
 
-            $arr = [ ];
+            $arr = [];
             if ($component->group_id != $component->id)
             {
                 array_push($arr, $component->group_id);
@@ -813,7 +810,7 @@ class ContentSourceController extends Controller
      *
      * @param $id
      *
-     * @return $this
+     * @return ContentSourceController|\yii\console\Response|Response
      * @throws HttpException
      */
     public function actionRestore($id)
@@ -832,7 +829,7 @@ class ContentSourceController extends Controller
      *
      * @param $id
      *
-     * @return $this
+     * @return ContentSourceController|\yii\console\Response|Response
      * @throws HttpException
      */
     public function actionMakeHomepage($id)
