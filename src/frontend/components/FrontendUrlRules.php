@@ -253,31 +253,15 @@ class FrontendUrlRules extends Object implements UrlRuleInterface
         // Check  if the app has more than one language active
         if (Locale::isMultiLanguageSite())
         {
-
             preg_match('/^\/?(\w{2}_\w{2})\/?(.*)$/', $pathInfo, $matches);
 
             //Remove the lang out of the pathinfo
-            $url_locale        = $matches[ 1 ];
-            $stripped_pathInfo = $matches[ 2 ];
-
-            Yii::trace("Multi lang detected: stripped_pathinfo = $stripped_pathInfo", __METHOD__);
-
-            /**
-             * Search for the pathinfo
-             * @var $slug ContentSlug
-             */
-            $slug = ContentSlug::find()
-                               ->where([ 'slug' => $stripped_pathInfo, 'language' => $url_locale ])
-                               ->one();
-
-        } // Else look directly for the slug.
-        else
-        {
-
-            $slug = ContentSlug::find()
-                               ->where([ 'slug' => $pathInfo, 'language' => Yii::$app->language ])
-                               ->one();
+            $pathInfo = $matches[ 2 ];
         }
+
+        $slug = ContentSlug::find()
+            ->where([ 'slug' => $pathInfo ])
+            ->one();
 
         // Actions to take if we have found a Slug.
         if (isset($slug))
