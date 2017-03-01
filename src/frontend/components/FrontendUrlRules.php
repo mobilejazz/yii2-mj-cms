@@ -268,22 +268,8 @@ class FrontendUrlRules extends Object implements UrlRuleInterface
         {
 
             $id = $slug->id;
+
             Yii::trace("Slug found: id = $id");
-
-            // First check that the language defined is the same as the slugs language.
-            if (strcmp(Yii::$app->language, $slug->language) != 0)
-            {
-
-                $current_slug = $slug->content->getCurrentSlug(Yii::$app->language);
-
-                $link = '/' . $current_slug->language . '/' . $current_slug->slug;
-
-                Yii::trace("Incorrect locale, redirect = $link", __METHOD__);
-
-                Yii::$app->getResponse()
-                         ->redirect($link, 301)
-                         ->send();
-            }
 
             if ($slug->isActive())
             {
@@ -309,16 +295,6 @@ class FrontendUrlRules extends Object implements UrlRuleInterface
                          ->redirect($link, 301)
                          ->send();
             }
-        } // If we have not found a slug until now, throw a new NotFoundHttpException.
-        else
-        {
-
-//            throw new NotFoundHttpException(Yii::t("app", "It looks like the content you are trying to access can not be found.
-//                            Route: {route}.
-//                            Params: {params}", [
-//                'route' => json_encode($route),
-//                'params' => json_encode($params),
-//            ]));
         }
 
         return false;
