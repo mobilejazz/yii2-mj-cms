@@ -260,7 +260,7 @@ class FrontendUrlRules extends Object implements UrlRuleInterface
         }
 
         $slug = ContentSlug::find()
-            ->where([ 'slug' => $pathInfo, 'language' => Yii::$app->language ])
+            ->where([ 'slug' => $pathInfo ])
             ->one();
 
         // Actions to take if we have found a Slug.
