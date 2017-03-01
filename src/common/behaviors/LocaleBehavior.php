@@ -48,7 +48,6 @@ class LocaleBehavior extends Behavior
             $userLocale = str_replace('-', '_', Yii::$app->language);   // sometimes yii can set the language as en-US for example
         }
 
-
         if (!Locale::isLocaleUsed($userLocale))
         {
             // Revert to default locale if the provided locale is not being used
