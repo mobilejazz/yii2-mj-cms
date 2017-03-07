@@ -72,10 +72,25 @@ class SiteController extends Controller
      */
     public function actionContent($lang, $slug)
     {
+        //===============================================//
+        // --------- HANDLE REDIRECTS IF NEEDED ---------//
+        //===============================================//
         /** @var ContentSlug $content_slug */
         $content_slug = ContentSlug::find()
                                    ->where([ 'language' => $lang, 'slug' => $slug ])
                                    ->one();
+
+        if (!$content_slug->isActive())
+        {
+            $current_slug = $content_slug->content->getCurrentSlug($content_slug->language);
+
+            $link = '/' . $current_slug->language . '/' . $current_slug->slug;
+
+            return $this->redirect($link);
+        }
+        //===============================================//
+        // --------- END OF REDIRECTS IF NEEDED ---------//
+        //===============================================//
 
         // Translations
         /** @var ContentSource $model */
