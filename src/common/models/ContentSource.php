@@ -2,7 +2,7 @@
 
 namespace mobilejazz\yii2\cms\common\models;
 
-use yii;
+use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
@@ -11,21 +11,22 @@ use yii\helpers\ArrayHelper;
 /**
  * This is the base-model class for table "content_source".
  *
- * @property integer            $id
- * @property string             $view
- * @property integer            $author_id
- * @property integer            $updater_id
- * @property integer            $status
- * @property integer            $is_homepage
- * @property integer            $published_at
- * @property integer            $created_at
- * @property integer            $updated_at
- * @property ContentComponent[] $contentComponents
- * @property ContentSlug[]      $contentSlugs
- * @property ContentMetaTag[]   $contentMetaTags
- * @property ComponentField[]   $componentFields
- * @property User               $updater
- * @property User               $author
+ * @property integer               $id
+ * @property string                $view
+ * @property integer               $author_id
+ * @property integer               $updater_id
+ * @property integer               $status
+ * @property integer               $is_homepage
+ * @property integer               $published_at
+ * @property integer               $created_at
+ * @property integer               $updated_at
+ * @property ContentComponent[]    $contentComponents
+ * @property ContentSlug[]         $contentSlugs
+ * @property ContentMetaTag[]      $contentMetaTags
+ * @property ContentRelationship[] $contentRelationships
+ * @property ComponentField[]      $componentFields
+ * @property User                  $updater
+ * @property User                  $author
  */
 class ContentSource extends ActiveRecord
 {
@@ -37,8 +38,11 @@ class ContentSource extends ActiveRecord
 
     public $publish_date_string;
 
-    /** @var ContentMetaTag */
+    /** @var ContentMetaTag[] */
     public $meta_tags;
+
+    /** @var  ContentRelationship[] */
+    public $meta_rels;
 
 
     /**
@@ -120,9 +124,9 @@ class ContentSource extends ActiveRecord
     public static function status()
     {
         return [
-            ContentSource::STATUS_DRAFT           => Yii::t('backend', 'Draft'),
-            ContentSource::STATUS_PUBLISHED       => Yii::t('backend', 'Published'),
-            ContentSource::STATUS_DELETED         => Yii::t('backend', 'Deleted'),
+            ContentSource::STATUS_DRAFT           => \Yii::t('backend', 'Draft'),
+            ContentSource::STATUS_PUBLISHED       => \Yii::t('backend', 'Published'),
+            ContentSource::STATUS_DELETED         => \Yii::t('backend', 'Deleted'),
             ContentSource::STATUS_PRIVATE_CONTENT => \Yii::t('backend', 'Private Content')
         ];
     }
@@ -198,6 +202,24 @@ class ContentSource extends ActiveRecord
                         $ml->content    = $tag[ 'content' ];
                         $ml->save();
                     }
+
+                    // DELETE LANGUAGES AND INSERT THEM AGAIN.
+                    if (isset($_POST[ 'ContentSource' ][ 'meta_rels' ]))
+                    {
+                        $rels = $_POST[ 'ContentSource' ][ 'meta_rels' ];
+                        ContentRelationship::deleteAll([ 'content_id' => $this->id, 'language' => \Yii::$app->language ]);
+                        foreach ($rels as $rel)
+                        {
+                            $ml             = new ContentRelationship();
+                            $ml->content_id = $this->id;
+                            $ml->language   = \Yii::$app->language;
+                            $ml->rel        = $rel[ 'rel' ];
+                            $ml->hreflang   = $rel[ 'hreflang' ];
+                            $ml->href       = $rel[ 'href' ];
+                            $ml->save();
+                        }
+                    }
+
                     $transaction->commit();
                 }
                 catch (\Exception $e)
@@ -216,6 +238,7 @@ class ContentSource extends ActiveRecord
     private function reloadFields()
     {
         $this->meta_tags = $this->getCurrentMetaTags();
+        $this->meta_rels = $this->getCurrentRels();
     }
 
 
@@ -236,6 +259,26 @@ class ContentSource extends ActiveRecord
     public function getMetaTags()
     {
         return $this->hasMany(ContentMetaTag::className(), [ 'content_id' => 'id' ]);
+    }
+
+
+    /**
+     * @return array|ContentRelationship[]
+     */
+    public function getCurrentRels()
+    {
+        return $this->getContentRelationships()
+                    ->where([ 'language' => \Yii::$app->language ])
+                    ->all();
+    }
+
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getContentRelationships()
+    {
+        return $this->hasMany(ContentRelationship::className(), [ 'content_id' => 'id', ]);
     }
 
 

@@ -4,7 +4,6 @@ namespace mobilejazz\yii2\cms\frontend\components;
 use mobilejazz\yii2\cms\common\models\ContentSlug;
 use mobilejazz\yii2\cms\common\models\Locale;
 use mobilejazz\yii2\cms\common\models\UrlRedirect;
-use yii;
 use yii\base\InvalidConfigException;
 use yii\base\Object;
 use yii\helpers\ArrayHelper;
@@ -107,10 +106,11 @@ class FrontendUrlRules extends Object implements UrlRuleInterface
             $url = $route;
         }
 
-        unset($params['lang']);
-        unset($params['slug']);
+        unset($params[ 'lang' ]);
+        unset($params[ 'slug' ]);
 
-        if(count($params) > 0){
+        if (count($params) > 0)
+        {
             $url = $url . '?' . http_build_query($params);
         }
 
@@ -141,7 +141,7 @@ class FrontendUrlRules extends Object implements UrlRuleInterface
 
     private function getBaseUrl()
     {
-        return isset($this->baseUrl) ? $this->baseUrl : Yii::$app->urlManager->baseUrl;
+        return isset($this->baseUrl) ? $this->baseUrl : \Yii::$app->urlManager->baseUrl;
     }
 
 
@@ -154,7 +154,7 @@ class FrontendUrlRules extends Object implements UrlRuleInterface
     {
         if ($this->_hostInfo === null)
         {
-            $request = Yii::$app->getRequest();
+            $request = \Yii::$app->getRequest();
             if ($request instanceof Request)
             {
                 $this->_hostInfo = $request->getHostInfo();
@@ -195,12 +195,12 @@ class FrontendUrlRules extends Object implements UrlRuleInterface
             $pathInfo = '/';
         }
 
-        Yii::info("Parsing request: pathInfo = '$pathInfo', baseUrl = '$baseUrl'", __METHOD__);
+        \Yii::info("Parsing request: pathInfo = '$pathInfo', baseUrl = '$baseUrl'", __METHOD__);
 
         if (isset($baseUrl) && strlen($baseUrl) > 0)
         {
             $pathInfo = str_replace($baseUrl, '', $pathInfo); // remove the base url if present
-            Yii::info("Removed baseUrl from pathInfo: pathInfo = $pathInfo", __METHOD__);
+            \Yii::info("Removed baseUrl from pathInfo: pathInfo = $pathInfo", __METHOD__);
         }
 
         // Actions that need to escape the content management url system.
@@ -208,16 +208,18 @@ class FrontendUrlRules extends Object implements UrlRuleInterface
         foreach ($this->_staticRoutes as $path => $route)
         {
 
-            $translatedPath = Yii::t($this->translationCategory, $path);
+            $translatedPath = \Yii::t($this->translationCategory, $path);
             if ($translatedPath !== $pathInfo)
             {
                 continue;
             }
 
-            Yii::info("Static route found: path = $path, translatedPath = $translatedPath, route = $route", __METHOD__);
+            \Yii::info("Static route found: path = $path, translatedPath = $translatedPath, route = $route", __METHOD__);
 
             return [ $route, [] ];
         }
+
+        unset($route, $translatedPath, $path);
 
         // Check if any redirects have been setup
 
@@ -227,19 +229,21 @@ class FrontendUrlRules extends Object implements UrlRuleInterface
 
         foreach ($url_redirects as $redirect)
         {
+            /** @var UrlRedirect $redirect */
             $origin_slug = $redirect->origin_slug;
             if (strcmp("/" . $pathInfo, $origin_slug) == 0)
             {
 
                 $destination_slug = $redirect->destination_slug;
 
-                Yii::trace("Url redirect found: origin_slug = $origin_slug, destination_slug = $destination_slug", __METHOD__);
+                \Yii::trace("Url redirect found: origin_slug = $origin_slug, destination_slug = $destination_slug", __METHOD__);
 
-                Yii::$app->getResponse()
-                         ->redirect($destination_slug, 301)
-                         ->send();
+                \Yii::$app->getResponse()
+                          ->redirect($destination_slug, 301)
+                          ->send();
             }
         }
+        unset($redirect, $origin_slug, $destination_slug);
 
         // If no redirect has been found, check on the content redirects.
 
@@ -253,88 +257,31 @@ class FrontendUrlRules extends Object implements UrlRuleInterface
         // Check  if the app has more than one language active
         if (Locale::isMultiLanguageSite())
         {
-
             preg_match('/^\/?(\w{2}_\w{2})\/?(.*)$/', $pathInfo, $matches);
 
             //Remove the lang out of the pathinfo
-            $url_locale        = $matches[ 1 ];
-            $stripped_pathInfo = $matches[ 2 ];
-
-            Yii::trace("Multi lang detected: stripped_pathinfo = $stripped_pathInfo", __METHOD__);
-
-            /**
-             * Search for the pathinfo
-             * @var $slug ContentSlug
-             */
-            $slug = ContentSlug::find()
-                               ->where([ 'slug' => $stripped_pathInfo, 'language' => $url_locale ])
-                               ->one();
-
-        } // Else look directly for the slug.
-        else
-        {
-
-            $slug = ContentSlug::find()
-                               ->where([ 'slug' => $pathInfo, 'language' => Yii::$app->language ])
-                               ->one();
+            $pathInfo = $matches[ 2 ];
         }
+
+        /** @var ContentSlug $slug */
+        $slug = ContentSlug::find()
+                           ->where([ 'slug' => $pathInfo, 'language' => \Yii::$app->language ])
+                           ->one();
 
         // Actions to take if we have found a Slug.
         if (isset($slug))
         {
-
             $id = $slug->id;
-            Yii::trace("Slug found: id = $id");
 
-            // First check that the language defined is the same as the slugs language.
-            if (strcmp(Yii::$app->language, $slug->language) != 0)
-            {
+            \Yii::trace("Slug found: id = $id");
 
-                $current_slug = $slug->content->getCurrentSlug(Yii::$app->language);
+            // Else save the params.
+            $params[ 'lang' ] = $slug->language;
+            $params[ 'slug' ] = $slug->slug;
 
-                $link = '/' . $current_slug->language . '/' . $current_slug->slug;
+            \Yii::trace("Active slug found, route = $route", __METHOD__);
 
-                Yii::trace("Incorrect locale, redirect = $link", __METHOD__);
-
-                Yii::$app->getResponse()
-                         ->redirect($link, 301)
-                         ->send();
-            }
-
-            if ($slug->isActive())
-            {
-                // Else save the params.
-                $params[ 'lang' ] = $slug->language;
-                $params[ 'slug' ] = $slug->slug;
-
-                Yii::trace("Active slug found, route = $route", __METHOD__);
-
-                return [ $route, $params ];
-
-            }  // If the slug is different that the one received, redirect.
-            else
-            {
-
-                $current_slug = $slug->content->getCurrentSlug($slug->language);
-
-                $link = '/' . $current_slug->language . '/' . $current_slug->slug;
-
-                Yii::trace("Redirect 2 = $link", __METHOD__);
-
-                Yii::$app->getResponse()
-                         ->redirect($link, 301)
-                         ->send();
-            }
-        } // If we have not found a slug until now, throw a new NotFoundHttpException.
-        else
-        {
-
-//            throw new NotFoundHttpException(Yii::t("app", "It looks like the content you are trying to access can not be found.
-//                            Route: {route}.
-//                            Params: {params}", [
-//                'route' => json_encode($route),
-//                'params' => json_encode($params),
-//            ]));
+            return [ $route, $params ];
         }
 
         return false;

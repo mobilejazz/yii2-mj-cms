@@ -30,39 +30,28 @@ class LocaleBehavior extends Behavior
      */
     public function beforeRequest()
     {
-
         $request = Yii::$app->getRequest();
         $pathInfo = $request->getPathInfo();
 
-        $availableLocales = $this->getAvailableLocales(true);
+        // look for locale in path
 
         $matches = [];
+        $localeFromPath = preg_match('/^([a-z]{2}_[a-z]{2})\/.*/', $pathInfo, $matches) == 1 ? $matches[1] : null;
 
-        if(preg_match('/^([a-z]{2}_[a-z]{2})\/.*/', $pathInfo, $matches) == 1 && in_array($matches[1], $availableLocales)){
+        $localeFromCookie = $this->enablePreferredLanguage && $request->getCookies()->has($this->cookieName) ? $request->getCookies()->getValue($this->cookieName) : null;
 
+        if(isset($localeFromPath)){
             $userLocale = $matches[1];
-
-        } else if (Yii::$app->getRequest()
-                     ->getCookies()
-                     ->has($this->cookieName) && !Yii::$app->session->hasFlash('forceUpdateLocale')
-        )
-        {
-            $userLocale = Yii::$app->getRequest()
-                                   ->getCookies()
-                                   ->getValue($this->cookieName);
-        }
-        else
-        {
-            $userLocale = str_replace('-', '_', Yii::$app->language);
-
-            if ($this->enablePreferredLanguage)
-            {
-                $userLocale = Yii::$app->request->getPreferredLanguage($this->getAvailableLocales(true));
-            }
+        } else if(isset($localeFromCookie)){
+            $userLocale = $localeFromCookie;
+        } else {
+            $userLocale = str_replace('-', '_', Yii::$app->language);   // sometimes yii can set the language as en-US for example
         }
 
         if (!Locale::isLocaleUsed($userLocale))
         {
+            // Revert to default locale if the provided locale is not being used
+            // This should perhaps throw an exception instead
             $userLocale = Locale::getIdentifier(Locale::getDefault());
         }
 

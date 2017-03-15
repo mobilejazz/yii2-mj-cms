@@ -3,7 +3,6 @@
 namespace mobilejazz\yii2\cms\common\models;
 
 use mobilejazz\yii2\cms\common\components\TimeStampActiveRecord;
-use yii;
 
 /**
  * This is the base-model class for table "locale".
@@ -124,13 +123,13 @@ class Locale extends TimeStampActiveRecord
     public static function getCurrentLanguageAsMap()
     {
 
-        return [ Yii::$app->language => self::getCurrent() ];
+        return [ \Yii::$app->language => self::getCurrent() ];
     }
 
 
     public static function getCurrent()
     {
-        return self::getAllLocalesAsMap()[ Yii::$app->language ];
+        return self::getAllLocalesAsMap()[ \Yii::$app->language ];
     }
 
 
@@ -169,6 +168,35 @@ class Locale extends TimeStampActiveRecord
                 continue;
             }
             $tr[ self::getIdentifier($t) ] = $t->country_code;
+        }
+
+        return $tr;
+    }
+
+
+    public static function getCurrentLangCode()
+    {
+        return self::getAllLanguagesAsMap()[ \Yii::$app->language ];
+    }
+
+
+    public static function getAllLanguagesAsMap($only_used = false, $currently_used = true)
+    {
+        $tr = [];
+        /** @var Locale[] $all */
+        $all = Locale::find()
+                     ->all();
+        foreach ($all as $t)
+        {
+            if (!$currently_used && $t->lang === \Yii::$app->language)
+            {
+                continue;
+            }
+            if ($only_used && !$t->isUsed())
+            {
+                continue;
+            }
+            $tr[ self::getIdentifier($t) ] = $t->lang;
         }
 
         return $tr;
