@@ -8,6 +8,7 @@ use mobilejazz\yii2\cms\common\models\Locale;
 use yii\bootstrap\Alert;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\Breadcrumbs;
 
 $bundle = BackendAsset::register($this);
@@ -18,7 +19,7 @@ $langs  = Locale::getAllKeys();
     <div class="wrapper">
         <!-- header logo: style can be found in header.less -->
         <header class="main-header">
-            <a href="/admin/" class="logo">
+            <a href="<?= Url::base() ?>" class="logo">
                 <!-- Add the class icon to your logo image or logo icon to add the margining -->
                 <?= Yii::$app->name ?>
             </a>
@@ -53,7 +54,7 @@ $langs  = Locale::getAllKeys();
                                     {
                                         ?>
                                         <li>
-                                            <a href="/admin/site/set-locale?locale=<?= $lang ?>">
+                                            <a href="<?= Url::base() ?>/site/set-locale?locale=<?= $lang ?>">
                                                 <span class="flag-icon flag-icon-<?= $current->country_code ?>"></span>
                                                 Edit in <?= $current->label ?>
                                             </a>
@@ -75,8 +76,8 @@ $langs  = Locale::getAllKeys();
                                 <!-- User image -->
                                 <li class="user-header light-blue">
                                     <img
-                                        src="<?= $this->assetManager->getAssetUrl($bundle, 'img/logo.png') ?>"
-                                        class="img-circle" alt="User Image"/>
+                                            src="<?= $this->assetManager->getAssetUrl($bundle, 'img/logo.png') ?>"
+                                            class="img-circle" alt="User Image"/>
 
                                     <p>
                                         <?= Yii::$app->user->identity->name ?>
@@ -139,7 +140,7 @@ $langs  = Locale::getAllKeys();
 
                 <?= Breadcrumbs::widget([
                     'tag'   => 'ol',
-                    'links' => isset($this->params[ 'breadcrumbs' ]) ? $this->params[ 'breadcrumbs' ] : [ ],
+                    'links' => isset($this->params[ 'breadcrumbs' ]) ? $this->params[ 'breadcrumbs' ] : [],
                 ]) ?>
 
                 <?php if (Yii::$app->session->hasFlash('error'))
