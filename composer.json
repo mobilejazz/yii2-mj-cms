@@ -89,6 +89,10 @@
     {
       "type": "vcs",
       "url": "https://github.com/mobilejazz-contrib/yii2-export"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/mobilejazz-contrib/yii2-password.git"
     }
   ]
 }
