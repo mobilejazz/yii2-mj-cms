@@ -49,16 +49,29 @@ class WebFormSubmission extends TimeStampActiveRecord
             return null;
         }
 
+        /** @var array $columns */
+        $columns = self::getColumns($submissions);
+
         $f = [];
         foreach ($submissions as $submission)
         {
-            $model = new DynamicModel();
-            $data  = json_decode($submission->fields, true);
+            $columns_left = array_merge([], $columns);
+            $model        = new DynamicModel();
+            $data         = json_decode($submission->fields, true);
             foreach ($data as $field)
             {
                 $atr_name  = str_replace(" ", "_", substr(strip_tags(stripslashes(strtolower($field[ 'field_name' ]))), 0, 10));
                 $atr_value = stripslashes(strip_tags($field[ 'user_response' ]));
                 $model->defineAttribute($atr_name, $atr_value);
+                if (in_array($atr_name, $columns_left))
+                {
+                    $position = array_search($atr_name, $columns_left);
+                    unset($columns_left[ $position ]);
+                }
+            }
+            foreach ($columns_left as $column)
+            {
+                $model->defineAttribute($column, "");
             }
             $model->defineAttribute(\Yii::t('backend', 'Date'), date(DATE_ATOM, $submission->created_at));
             $model->defineAttribute('id', $submission->id);
@@ -73,6 +86,33 @@ class WebFormSubmission extends TimeStampActiveRecord
         ]);
 
         return $dp;
+    }
+
+
+    /**
+     * @param $submissions
+     *
+     * @return array
+     */
+    private static function getColumns($submissions)
+    {
+        $columns = [];
+
+        foreach ($submissions as $submission)
+        {
+            $data = json_decode($submission->fields, true);
+            foreach ($data as $field)
+            {
+                $atr_name = str_replace(" ", "_", substr(strip_tags(stripslashes(strtolower($field[ 'field_name' ]))), 0, 10));
+
+                if (!in_array($atr_name, $columns))
+                {
+                    $columns[] = $atr_name;
+                }
+            }
+        }
+
+        return $columns;
     }
 
 
