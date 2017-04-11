@@ -1,9 +1,11 @@
 <?php
+
 namespace mobilejazz\yii2\cms\frontend\components;
 
 use mobilejazz\yii2\cms\common\models\ContentSlug;
 use mobilejazz\yii2\cms\common\models\Locale;
 use mobilejazz\yii2\cms\common\models\UrlRedirect;
+use Yii;
 use yii\base\InvalidConfigException;
 use yii\base\Object;
 use yii\helpers\ArrayHelper;
@@ -203,11 +205,33 @@ class FrontendUrlRules extends Object implements UrlRuleInterface
             \Yii::info("Removed baseUrl from pathInfo: pathInfo = $pathInfo", __METHOD__);
         }
 
-        // Actions that need to escape the content management url system.
+        // TRY TO CHANGE LANGUAGE IF WE ARE IN THE HOMEPAGE
+        if (Locale::isMultiLanguageSite())
+        {
+            $path_with_no_slash = urldecode(str_replace('/', '', $pathInfo));
+            /** @var Locale[] $all */
+            $all = Locale::find()
+                         ->where([ 'used' => true, ])
+                         ->select([ 'lang', 'country_code' ])
+                         ->all();
+            $tr  = [];
+            /** @var Locale $loc */
+            foreach ($all as $loc)
+            {
+                $tr[] = Locale::getIdentifier($loc);
+            }
 
+            if (in_array($path_with_no_slash, $tr))
+            {
+                /** @var Locale $lg check if we need to change the language */
+                $pathInfo            = '/';
+                \Yii::$app->language = $path_with_no_slash;
+            }
+        }
+
+        // Actions that need to escape the content management url system.
         foreach ($this->_staticRoutes as $path => $route)
         {
-
             $translatedPath = \Yii::t($this->translationCategory, $path);
             if ($translatedPath !== $pathInfo)
             {
