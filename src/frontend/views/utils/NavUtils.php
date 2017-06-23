@@ -15,30 +15,37 @@ class NavUtils
      * @param Menu|MenuItem $menu
      *
      * @return array
+     * @throws Exception
      */
     public static function buildMenu($menu)
     {
 
-        if($menu == null) return [];
+        if ($menu == null)
+        {
+            return [];
+        }
 
-        if($menu instanceof Menu){
+        if ($menu instanceof Menu)
+        {
 
             $items = [];
 
-            foreach($menu->getSortedMenuItems() as $menuItem){
+            foreach ($menu->getSortedMenuItems() as $menuItem)
+            {
                 $items[] = self::buildMenu($menuItem, false);
             }
 
             return $items;
 
-        } else if ($menu instanceof MenuItem){
+        }
+        else if ($menu instanceof MenuItem)
+        {
 
             $lang = Yii::$app->language;
 
             $translated = $menu->getCurrentTranslation($lang);
 
             $label = $translated->title;
-            $url = '#';
 
             if (isset($menu->content_id) && $menu->content_id != null)
             {
@@ -54,7 +61,11 @@ class NavUtils
             }
             else if (isset($translation) && $translation != null)
             {
-                $url = $translation->link;
+                $url = $translated->link;
+            }
+            else
+            {
+                $url = $translated->link;
             }
 
             $result = [
@@ -63,20 +74,23 @@ class NavUtils
                 'items' => []
             ];
 
-            if($menu->children){
-                foreach($menu->children as $child){
-                    $result['items'][] = self::buildMenu($child, false);
+            if ($menu->children)
+            {
+                foreach ($menu->children as $child)
+                {
+                    $result[ 'items' ][] = self::buildMenu($child, false);
                 }
             }
 
             return $result;
-        } else {
+        }
+        else
+        {
             var_dump($menu);
             $className = $menu::className();
             throw new Exception("Unexpected type: $className");
         }
 
     }
-
 
 }
