@@ -287,6 +287,20 @@ class FrontendUrlRules extends Object implements UrlRuleInterface
             $pathInfo = $matches[ 2 ];
         }
 
+        // Actions that need to escape the content management url system.
+        foreach ($this->_staticRoutes as $path => $route)
+        {
+            $translatedPath = \Yii::t($this->translationCategory, $path);
+            if ($translatedPath !== $pathInfo)
+            {
+                continue;
+            }
+
+            \Yii::info("Static route found: path = $path, translatedPath = $translatedPath, route = $route", __METHOD__);
+
+            return [ $route, [] ];
+        }
+
         /** @var ContentSlug $slug */
         $slug = ContentSlug::find()
                            ->where([ 'slug' => $pathInfo, 'language' => \Yii::$app->language ])
@@ -307,6 +321,7 @@ class FrontendUrlRules extends Object implements UrlRuleInterface
 
             return [ $route, $params ];
         }
+
 
         return false;
     }
