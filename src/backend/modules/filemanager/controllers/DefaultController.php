@@ -2,11 +2,11 @@
 
 namespace mobilejazz\yii2\cms\backend\modules\filemanager\controllers;
 
+use InvalidArgumentException;
 use mobilejazz\yii2\cms\backend\modules\filemanager\assets\FilemanagerAsset;
 use mobilejazz\yii2\cms\backend\modules\filemanager\models\Mediafile;
 use mobilejazz\yii2\cms\common\AuthHelper;
 use mobilejazz\yii2\cms\common\models\User;
-use InvalidArgumentException;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SplFileInfo;
@@ -146,7 +146,8 @@ class DefaultController extends Controller
 
                 $tmp_folder = $this->createTempFolder();
                 $this->extractDB($tmp_folder);
-                $this->copyMedia(realpath('files'), $tmp_folder);
+                $path = realpath(Yii::getAlias("@backend/web/files"));
+                $this->copyMedia($path . "/.", $tmp_folder);
                 $this->makeZipFile($tmp_folder);
 
                 $file_path = $tmp_folder . '/files.zip';
@@ -162,7 +163,6 @@ class DefaultController extends Controller
 
         else
         {
-
             throw new yii\web\ForbiddenHttpException;
         }
     }
@@ -170,7 +170,7 @@ class DefaultController extends Controller
 
     private function createTempFolder()
     {
-        $tmp_folder = '/tmp/' . \Yii::$app->params[ 'url' ];
+        $tmp_folder = '/tmp/' . \Yii::$app->params[ 'baseUrl' ];
         $tmp_folder = str_replace('http://', '', $tmp_folder);
         $this->removeDirectory($tmp_folder);
         mkdir($tmp_folder);
@@ -218,37 +218,13 @@ class DefaultController extends Controller
 
         //Export the database and output the status to the page
         $command = 'mysqldump --opt -u ' . $mysqlUserName . ' -p' . $mysqlPassword . ' ' . $mysqlDatabaseName . ' > ' . $mysqlExportPath;
-        exec($command, $output = [ ], $worked);
+        exec($command, $output = [], $worked);
     }
 
 
     private function copyMedia($source, $destination)
     {
-        if (is_dir($source))
-        {
-            mkdir($destination);
-            $directory = dir($source);
-            while (false !== ($readdirectory = $directory->read()))
-            {
-                if ($readdirectory == '.' || $readdirectory == '..')
-                {
-                    continue;
-                }
-                $PathDir = $source . '/' . $readdirectory;
-                if (is_dir($PathDir))
-                {
-                    $this->copyMedia($PathDir, $destination . '/' . $readdirectory);
-                    continue;
-                }
-                copy($PathDir, $destination . '/' . $readdirectory);
-            }
-
-            $directory->close();
-        }
-        else
-        {
-            copy($source, $destination);
-        }
+        exec("cp -r $source $destination/files/");
     }
 
 
