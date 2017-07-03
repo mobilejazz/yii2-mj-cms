@@ -235,7 +235,7 @@ class FrontendUrlRules extends Object implements UrlRuleInterface
                 continue;
             }
 
-            \Yii::info("Static route found: path = $path, translatedPath = $translatedPath, route = $route", __METHOD__);
+            \Yii::info("Static route found: path = $path, translatedPath = $translatedPath, route = $r", __METHOD__);
 
             return [ $r, [] ];
         }
