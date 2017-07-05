@@ -220,6 +220,12 @@ $(function () {
             }
         });
 
+        if($(window).scrollTop() != 0 ) {
+            element.width(width);
+            element.css("left", left);
+            element.css("top", offsetTop);
+        }
+
         element.on('affix.bs.affix', function () {
             element.width(width);
             element.css("left", left);
