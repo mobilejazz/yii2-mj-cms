@@ -352,7 +352,7 @@ class WebFormController extends Controller
      * @return $this
      * @throws HttpException
      */
-    public function actionAddRow($id, $order)
+    public function actionAddRow($id, $order = null)
     {
         $lang = Yii::$app->language;
 

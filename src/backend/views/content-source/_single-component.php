@@ -61,12 +61,12 @@ foreach ($components as $key => $component)
 
     if ($component->displayTitle())
     {
-        echo Fields::field($form, $component, "[$key]title")
+        echo Fields::field(null, $component, "[$key]title")
                    ->textInput();
     }
     else
     {
-        echo Fields::field($form, $component, "[$key]title")
+        echo Fields::field(null, $component, "[$key]title")
                    ->textInput()
                    ->hiddenInput()
                    ->label(false);

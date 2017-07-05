@@ -83,7 +83,12 @@ class ContentSource extends ActiveRecord
                    ->orderBy([ 'updated_at' => SORT_DESC ])
                    ->one();
 
-        return $cs->title;
+        if($cs){
+            return $cs->title;
+        }
+
+        return "";
+
     }
 
 

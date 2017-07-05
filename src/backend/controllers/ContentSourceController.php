@@ -872,7 +872,7 @@ class ContentSourceController extends Controller
 
         if (Yii::$app->request->isPost)
         {
-            $model->publish_date_string = $_POST[ 'ContentSource' ][ 'publish_date_string' ];
+            // $model->publish_date_string = $_POST[ 'ContentSource' ][ 'publish_date_string' ];
             // $model->published_at        = strtotime($model->publish_date_string);
 
             if ($model->load($_POST))

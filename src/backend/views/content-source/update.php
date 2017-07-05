@@ -87,15 +87,18 @@ $form                            = ActiveForm::begin([
         <?php
         BoxPanel::end();
 
-        if ($field_errors && (count($field_errors) > 0))
-        {
-            ?>
-            <div class="alert alert-danger alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <h4><i class="icon fa fa-ban"></i> <?= Yii::t('backend', 'Alert!') ?></h4>
-                <?= Yii::t('backend', 'Attention, some fields have errors and have not been saved. Please review them.') ?>
-            </div>
-            <?php
+        if (isset($field_errors)) {
+
+            if ($field_errors && (count($field_errors) > 0))
+            {
+                ?>
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-ban"></i> <?= Yii::t('backend', 'Alert!') ?></h4>
+                    <?= Yii::t('backend', 'Attention, some fields have errors and have not been saved. Please review them.') ?>
+                </div>
+                <?php
+            }
         }
         // ============================
         // CONTENT SOURCE RELATED
