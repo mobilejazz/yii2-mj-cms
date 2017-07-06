@@ -4,17 +4,6 @@ use yii\db\Migration;
 
 class m170705_095702_webform extends Migration
 {
-    public function safeUp()
-    {
-
-    }
-
-    public function safeDown()
-    {
-        echo "m170705_095702_webform cannot be reverted.\n";
-
-        return false;
-    }
 
     public function up()
     {
