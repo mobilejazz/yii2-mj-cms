@@ -477,7 +477,3 @@ table.fixed-table td {
     transform: translate(0, 0);
   }
 }
-
-.component-error{
-  border: 1px solid red;
-}
