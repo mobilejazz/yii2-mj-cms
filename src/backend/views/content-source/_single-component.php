@@ -22,6 +22,9 @@ foreach ($components as $key => $component)
     $inGroup        = count($group) > 1;
     $first_in_group = false;
     $last_in_group  = false;
+
+    $box_panel_open = $component->hasErrors() ? true : false;
+
     if ($inGroup)
     {
         $first_in_group = $component->isFirstInGroup();
@@ -33,7 +36,7 @@ foreach ($components as $key => $component)
     {
         BoxPanel::begin([
             'title'    => Yii::t('backend', 'Component: ' . $component->title),
-            'open'     => false,
+            'open'     => $box_panel_open,
             'type'     => 'primary',
             'sortable' => $sortable,
             'options'  => [
@@ -51,7 +54,7 @@ foreach ($components as $key => $component)
 
     BoxPanel::begin([
         'title'    => $component->title,
-        'open'     => false,
+        'open'     => $box_panel_open,
         'sortable' => $sortable,
         'hidden'   => !$inGroup || count($fields) > 0 ? false : true,
         'options'  => [
