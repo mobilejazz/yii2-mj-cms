@@ -67,8 +67,8 @@ $form                            = ActiveForm::begin([
                 'style' => 'padding: 5px; float: left;',
             ],
         ])
-                 ->textInput([ 'maxlength' => true, 'placeholder' => $slug->title ])
-                 ->label(Yii::t('backend', 'Title')) ?>
+            ->textInput(['maxlength' => true, 'placeholder' => $slug->title])
+            ->label(Yii::t('backend', 'Title')) ?>
 
         <label><?= Yii::t('backend', 'Slug') ?></label>
 
@@ -78,19 +78,18 @@ $form                            = ActiveForm::begin([
                 'style' => 'padding: 5px; float: left;',
             ],
         ])
-                 ->textInput([
-                     'maxlength'   => true,
-                     'placeholder' => $slug->slug,
-                     'readonly'    => true,
-                 ])
-                 ->label(false) ?>
+            ->textInput([
+                'maxlength' => true,
+                'placeholder' => $slug->slug,
+                'readonly' => true,
+            ])
+            ->label(false) ?>
         <?php
         BoxPanel::end();
 
         if (isset($field_errors)) {
 
-            if ($field_errors && (count($field_errors) > 0))
-            {
+            if ($field_errors && (count($field_errors) > 0)) {
                 ?>
                 <div class="alert alert-danger alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -103,8 +102,7 @@ $form                            = ActiveForm::begin([
         // ============================
         // CONTENT SOURCE RELATED
         // ============================
-        if (!$model->isNewRecord)
-        {
+        if (!$model->isNewRecord) {
             ?>
             <div class='content-loader-activator hidden'>
                 <div style='text-align:center; font-size: 33px;'>
@@ -114,16 +112,17 @@ $form                            = ActiveForm::begin([
             <div class="actualcontent">
                 <?php
                 echo $this->render("_content-view", [
-                    'model'         => $model,
-                    'components'    => $components,
+                    'model' => $model,
+                    'components' => $components,
                     '$field_errors' => $field_errors
                 ]);
                 ?>
             </div>
             <?php
+
             // META TAGS START
             BoxPanel::begin([
-                'title'       => Yii::t('backend', 'SEO Meta Tags'),
+                'title' => Yii::t('backend', 'SEO Meta Tags'),
                 'collapsible' => false,
             ]);
 
@@ -131,44 +130,44 @@ $form                            = ActiveForm::begin([
                 'options' => [
                     'class' => 'alert-warning',
                 ],
-                'body'    => \Yii::t('backend', 'Add as many Meta Tags as you wish. They will be rendered in the header of this content page.'),
+                'body' => \Yii::t('backend', 'Add as many Meta Tags as you wish. They will be rendered in the header of this content page.'),
             ]);
 
             echo $form->field($model, 'meta_tags')
-                      ->widget(MultipleInput::className(), [
-                          'limit'   => 7,
-                          'columns' => [
-                              [
-                                  'name'          => 'name',
-                                  'enableError'   => true,
-                                  'title'         => \Yii::t('backend', 'Meta Name'),
-                                  'options'       => [
-                                      'style' => 'width: 250px;',
-                                  ],
-                                  'headerOptions' => [
-                                      'style' => 'width: 250px;',
-                                  ]
-                              ],
-                              [
-                                  'name'          => 'content',
-                                  'enableError'   => true,
-                                  'title'         => \Yii::t('backend', 'Meta Content'),
-                                  'options'       => [
-                                      'style' => 'width: 100%;',
-                                  ],
-                                  'headerOptions' => [
-                                      'style' => 'width: 100%;',
-                                  ]
-                              ],
-                          ]
-                      ])
-                      ->label(false);
+                ->widget(MultipleInput::className(), [
+                    'limit' => 7,
+                    'columns' => [
+                        [
+                            'name' => 'name',
+                            'enableError' => true,
+                            'title' => \Yii::t('backend', 'Meta Name'),
+                            'options' => [
+                                'style' => 'width: 250px;',
+                            ],
+                            'headerOptions' => [
+                                'style' => 'width: 250px;',
+                            ]
+                        ],
+                        [
+                            'name' => 'content',
+                            'enableError' => true,
+                            'title' => \Yii::t('backend', 'Meta Content'),
+                            'options' => [
+                                'style' => 'width: 100%;',
+                            ],
+                            'headerOptions' => [
+                                'style' => 'width: 100%;',
+                            ]
+                        ],
+                    ]
+                ])
+                ->label(false);
 
             BoxPanel::end();
             // META TAGS END.
             // META RELS START
             BoxPanel::begin([
-                'title'       => Yii::t('backend', 'Content Relationships'),
+                'title' => Yii::t('backend', 'Content Relationships'),
                 'collapsible' => false,
             ]);
 
@@ -176,59 +175,84 @@ $form                            = ActiveForm::begin([
                 'options' => [
                     'class' => 'alert-warning',
                 ],
-                'body'    => \Yii::t('backend', 'Add as many Relationships as you wish. They will be rendered in the header of this content page.'),
+                'body' => \Yii::t('backend', 'Add as many Relationships as you wish. They will be rendered in the header of this content page.'),
             ]);
 
             echo $form->field($model, 'meta_rels')
-                      ->widget(MultipleInput::className(), [
-                          'limit'   => 7,
-                          'columns' => [
-                              [
-                                  'name'          => 'rel',
-                                  'enableError'   => true,
-                                  'title'         => \Yii::t('backend', 'Rel'),
-                                  'options'       => [
-                                      'style' => 'width: 150px;',
-                                  ],
-                                  'headerOptions' => [
-                                      'style' => 'width: 150px;',
-                                  ]
-                              ],
-                              [
-                                  'name'          => 'hreflang',
-                                  'enableError'   => true,
-                                  'title'         => \Yii::t('backend', 'Href Lang'),
-                                  'options'       => [
-                                      'style' => 'width: 150px;',
-                                  ],
-                                  'headerOptions' => [
-                                      'style' => 'width: 150px;',
-                                  ]
-                              ],
-                              [
-                                  'name'          => 'href',
-                                  'enableError'   => true,
-                                  'title'         => \Yii::t('backend', 'Href'),
-                                  'options'       => [
-                                      'style' => 'width: 100%;',
-                                  ],
-                                  'headerOptions' => [
-                                      'style' => 'width: 100%;',
-                                  ]
-                              ],
-                          ]
-                      ])
-                      ->label(false);
+                ->widget(MultipleInput::className(), [
+                    'limit' => 7,
+                    'columns' => [
+                        [
+                            'name' => 'rel',
+                            'enableError' => true,
+                            'title' => \Yii::t('backend', 'Rel'),
+                            'options' => [
+                                'style' => 'width: 150px;',
+                            ],
+                            'headerOptions' => [
+                                'style' => 'width: 150px;',
+                            ]
+                        ],
+                        [
+                            'name' => 'hreflang',
+                            'enableError' => true,
+                            'title' => \Yii::t('backend', 'Href Lang'),
+                            'options' => [
+                                'style' => 'width: 150px;',
+                            ],
+                            'headerOptions' => [
+                                'style' => 'width: 150px;',
+                            ]
+                        ],
+                        [
+                            'name' => 'href',
+                            'enableError' => true,
+                            'title' => \Yii::t('backend', 'Href'),
+                            'options' => [
+                                'style' => 'width: 100%;',
+                            ],
+                            'headerOptions' => [
+                                'style' => 'width: 100%;',
+                            ]
+                        ],
+                    ]
+                ])
+                ->label(false);
 
             BoxPanel::end();
             // META TAGS END.
+
+            BoxPanel::begin([
+                'title' => Yii::t('backend', 'Slug history'),
+                'collapsible' => false
+            ]);
+
+            $slugs = $model->getOldSlugs(Yii::$app->language);
+
+            foreach ($slugs as $slug) {
+
+                echo $form->field($slug, 'slug')
+                    ->widget(MultipleInput::className())
+
+                    ->textInput([
+                        'placeholder' => $slug->slug,
+                        'readonly' => true,
+                        'options' => [
+                            'style' => 'width: 250px;',
+                        ],
+                    ])->label($label);
+
+                if (next($slugs) == false) { $label = 'Current Slug: '; }else{ $label = ''; }
+            }
+
+            BoxPanel::end();
         }
         ?>
 
         <?php if ($model->isNewRecord): ?>
-            <?= Html::a('<span class="glyphicon glyphicon-check"></span> ' . Yii::t('backend', 'Create'), [ 'create', 'id' => $model->id ], [
+            <?= Html::a('<span class="glyphicon glyphicon-check"></span> ' . Yii::t('backend', 'Create'), ['create', 'id' => $model->id], [
                 'class' => 'btn btn-success',
-                'data'  => [
+                'data' => [
                     'method' => 'post',
                 ],
             ]); ?>
@@ -238,13 +262,13 @@ $form                            = ActiveForm::begin([
     <?php if (!$model->isNewRecord): ?>
         <div class="col-xs-12 col-sm-3 affix-element actionsContainer">
             <?php BoxPanel::begin([
-                'title'       => Yii::t('backend', 'Publishing'),
+                'title' => Yii::t('backend', 'Publishing'),
                 'collapsible' => false,
             ]) ?>
             <div class="form-group">
                 <?php if (!$model->is_homepage): ?>
                     <?= Html::a('<i class="fa fa-home icon-margin small"></i>' . \Yii::t('backend', 'Make Home Page'),
-                        [ 'make-homepage', 'id' => $model->id ], [
+                        ['make-homepage', 'id' => $model->id], [
                             'class' => 'btn btn-primary',
                             'style' => 'display: block; margin-bottom: 10px;',
                         ]) ?>
@@ -252,8 +276,8 @@ $form                            = ActiveForm::begin([
             </div>
             <!-- PUBLISHED? -->
             <?= $form->field($model, 'status')
-                     ->dropDownList(ContentSource::status())
-                     ->label(Yii::t('backend', 'Status')) ?>
+                ->dropDownList(ContentSource::status())
+                ->label(Yii::t('backend', 'Status')) ?>
 
             <!-- PUBLISH DATE -->
             <!-- <? /*= $form->field($model, 'publish_date_string')->widget(DatePicker::className(), [
@@ -272,35 +296,35 @@ $form                            = ActiveForm::begin([
                         'lang' => Yii::$app->language,
                         'slug' => $slug->slug,
                     ]), [
-                        'class'  => 'btn btn-default viewContent',
+                        'class' => 'btn btn-default viewContent',
                         'target' => '_blank',
-                        'style'  => 'margin-right: 10px;',
+                        'style' => 'margin-right: 10px;',
                     ]) ?>
                 <?= Html::a('<i class="fa fa-bullseye"></i> ' . Yii::t('backend', 'Quick View'), false, [
                     'data-value' => Url::to([
                         'quick-view',
                         'id' => $model->id,
                     ]),
-                    'label'      => Yii::t('backend', 'Content Structure') . " " . $slug->title,
-                    'class'      => 'showModalButton btn btn-primary',
+                    'label' => Yii::t('backend', 'Content Structure') . " " . $slug->title,
+                    'class' => 'showModalButton btn btn-primary',
                 ]) ?>
             </div>
             <div class="clearfix"></div>
             <div class="form-group form-inline actionButtons">
                 <!-- Save the Content -->
-                <?= Html::a('<span class="fa fa-check icon-margin small"></span> ' . Yii::t('backend', 'Save'), [ 'update', 'id' => $model->id ], [
+                <?= Html::a('<span class="fa fa-check icon-margin small"></span> ' . Yii::t('backend', 'Save'), ['update', 'id' => $model->id], [
                     'class' => 'btn btn-success',
                     'style' => 'margin-right: 10px;',
-                    'data'  => [
+                    'data' => [
                         'method' => 'post',
                     ],
 
                 ]); ?>
 
                 <!-- Delete the Content -->
-                <?= Html::a('<span class="fa fa-trash icon-margin small"></span> ' . Yii::t('backend', 'Delete'), [ 'delete', 'id' => $model->id ], [
+                <?= Html::a('<span class="fa fa-trash icon-margin small"></span> ' . Yii::t('backend', 'Delete'), ['delete', 'id' => $model->id], [
                     'class' => 'btn btn-danger delete-content',
-                    'data'  => [
+                    'data' => [
                         'method' => 'post',
                     ],
                 ]); ?>
@@ -314,7 +338,7 @@ $form                            = ActiveForm::begin([
 ActiveForm::end();
 
 $delete_msg = '<span class="fa fa-trash icon-margin small"></span> ' . \Yii::t('backend', 'Are you sure?');
-$script     = <<< JS
+$script = <<< JS
 // CONTENT SLUG EDIT.
 var cs = $('#contentslug-slug');
 cs.parent().addClass('form-inline');
