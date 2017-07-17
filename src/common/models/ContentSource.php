@@ -385,6 +385,16 @@ class ContentSource extends ActiveRecord
                           ->one();
     }
 
+    public function getOldSlugs($lang)
+    {
+        $locale = Locale::findByIdentifier($lang);
+
+        return ContentSlug::find()
+            ->where([ 'content_id' => $this->id, 'language' => Locale::getIdentifier($locale) ])
+            ->orderBy([ 'updated_at' => SORT_ASC ])
+            ->all();
+    }
+
 
     /**
      * Returns the content components ordered in a map <GROUP_ID><ARRAY_OF_COMPONENTS> so we can retrieve everything in a single call.
