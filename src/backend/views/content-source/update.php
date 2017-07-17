@@ -112,9 +112,9 @@ $form                            = ActiveForm::begin([
             <div class="actualcontent">
                 <?php
                 echo $this->render("_content-view", [
-                    'model' => $model,
-                    'components' => $components,
-                    '$field_errors' => $field_errors
+                    'model'         => $model,
+                    'components'    => $components,
+                    'field_errors' => $field_errors
                 ]);
                 ?>
             </div>

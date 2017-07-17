@@ -12,6 +12,7 @@ use yii;
  * @property integer           $web_form
  * @property string            $language
  * @property string            $legend
+ * @property string            $internal_name
  * @property integer           $order
  * @property integer           $created_at
  * @property integer           $updated_at
@@ -51,7 +52,7 @@ class WebFormRow extends TimeStampActiveRecord
      *
      * @return WebFormRow
      */
-    public static function create($id, $lang, $order)
+    public static function create($id, $lang, $order, $internal_name = null)
     {
         // Define the new Row.
         /** @var WebFormRow $row */
@@ -61,6 +62,7 @@ class WebFormRow extends TimeStampActiveRecord
         $row->order      = $order;
         $row->created_at = time();
         $row->updated_at = time();
+        $row->internal_name = $internal_name;
         $row->save();
 
         return $row;
@@ -140,6 +142,7 @@ class WebFormRow extends TimeStampActiveRecord
             [ [ 'web_form', 'order', 'created_at', 'updated_at' ], 'integer' ],
             [ [ 'language' ], 'string', 'max' => 16 ],
             [ [ 'legend' ], 'string', 'max' => 255 ],
+            [ [ 'internal_name' ], 'string', 'max' => 255 ],
         ];
     }
 
@@ -154,6 +157,7 @@ class WebFormRow extends TimeStampActiveRecord
             'web_form'   => 'Web Form',
             'language'   => 'Language',
             'legend'     => 'Legend',
+            'internal_name' => 'Internal Name',
             'order'      => 'Order',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',

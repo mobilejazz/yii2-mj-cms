@@ -137,9 +137,17 @@ $form                            = ActiveForm::begin();
                     ],
                 ]);
 
-                echo $form->field($row, "[$key]legend")
+                echo "<div class='row'>";
+
+                echo $form->field($row, "[$key]legend", [ 'options' => [ 'class' => 'col-md-6', ] ])
                           ->textInput()
                           ->hint(Yii::t('backend', 'You can set a legend for this row if you wish to, if not, leave empty'));
+
+                echo $form->field($row, "[$key]internal_name", [ 'options' => [ 'class' => 'col-md-6', ] ])
+                    ->textInput()
+                    ->hint(Yii::t('backend', 'You can set a internal name for this row if you wish to, if not, leave empty. This internal name never will be show on the website.'));
+
+                echo "</div>";
 
                 /**
                  *  GO THROUGH THE FIELDS IN THE ORDER THEY SHOULD BE DISPLAYED.
