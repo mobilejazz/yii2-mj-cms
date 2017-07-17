@@ -116,7 +116,7 @@ $form                            = ActiveForm::begin([
                 echo $this->render("_content-view", [
                     'model'         => $model,
                     'components'    => $components,
-                    '$field_errors' => $field_errors
+                    'field_errors' => $field_errors
                 ]);
                 ?>
             </div>
