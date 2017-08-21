@@ -64,8 +64,8 @@ class MenuController extends yii\web\Controller
                         'allow'         => false,
                         'matchCallback' => function ($rule, $action)
                         {
-                            $writeLockEnabled = ArrayHelper::getValue(\Yii::$app->params, 'writeLockEnabled', true);
-                            return $writeLockEnabled && \Yii::$app->params[ 'environment' ] === 'prod';
+                            $writeLockConfig = ArrayHelper::getValue(\Yii::$app->params, 'writeLock', []);
+                            return array_key_exists(\Yii::$app->params[ 'environment' ], $writeLockConfig);
                         },
                         'denyCallback'  => AuthHelper::denyCallback(function ()
                         {
