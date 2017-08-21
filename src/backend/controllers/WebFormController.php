@@ -14,6 +14,7 @@ use mobilejazz\yii2\cms\common\models\WebFormRowField;
 use mobilejazz\yii2\cms\common\models\WebFormSubmission;
 use yii;
 use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\HttpException;
@@ -89,7 +90,8 @@ class WebFormController extends Controller
                         'allow'         => false,
                         'matchCallback' => function ($rule, $action)
                         {
-                            return \Yii::$app->params[ 'environment' ] === 'prod';
+                            $writeLockEnabled = ArrayHelper::getValue(\Yii::$app->params, 'writeLockEnabled', true);
+                            return $writeLockEnabled && \Yii::$app->params[ 'environment' ] === 'prod';
                         },
                         'denyCallback'  => AuthHelper::denyCallback(function ()
                         {

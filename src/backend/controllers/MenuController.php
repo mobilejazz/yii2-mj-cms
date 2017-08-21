@@ -11,6 +11,7 @@ use mobilejazz\yii2\cms\common\models\MenuItem;
 use mobilejazz\yii2\cms\common\models\MenuItemTranslation;
 use mobilejazz\yii2\cms\common\models\User;
 use yii;
+use yii\helpers\ArrayHelper;
 use yii\web\HttpException;
 
 /**
@@ -63,7 +64,8 @@ class MenuController extends yii\web\Controller
                         'allow'         => false,
                         'matchCallback' => function ($rule, $action)
                         {
-                            return \Yii::$app->params[ 'environment' ] === 'prod';
+                            $writeLockEnabled = ArrayHelper::getValue(\Yii::$app->params, 'writeLockEnabled', true);
+                            return $writeLockEnabled && \Yii::$app->params[ 'environment' ] === 'prod';
                         },
                         'denyCallback'  => AuthHelper::denyCallback(function ()
                         {

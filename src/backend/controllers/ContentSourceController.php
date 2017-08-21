@@ -19,6 +19,7 @@ use Yii;
 use yii\base\DynamicModel;
 use yii\base\Model;
 use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\HttpException;
@@ -85,7 +86,8 @@ class ContentSourceController extends Controller
                         'allow'         => false,
                         'matchCallback' => function ($rule, $action)
                         {
-                            return \Yii::$app->params[ 'environment' ] === 'prod';
+                            $writeLockEnabled = ArrayHelper::getValue(\Yii::$app->params, 'writeLockEnabled', true);
+                            return $writeLockEnabled && \Yii::$app->params[ 'environment' ] === 'prod';
                         },
                         'denyCallback'  => AuthHelper::denyCallback(function ()
                         {
