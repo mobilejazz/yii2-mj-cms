@@ -86,7 +86,7 @@ class ContentSourceController extends Controller
                         'allow'         => false,
                         'matchCallback' => function ($rule, $action)
                         {
-                            $writeLockConfig = ArrayHelper::getValue(\Yii::$app->params, 'writeLock', ['production']);
+                            $writeLockConfig = ArrayHelper::getValue(\Yii::$app->params, 'writeLock', []);
                             return array_key_exists(\Yii::$app->params[ 'environment' ], $writeLockConfig);
                         },
                         'denyCallback'  => AuthHelper::denyCallback(function ()
