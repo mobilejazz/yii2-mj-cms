@@ -13,7 +13,6 @@ use SplFileInfo;
 use yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\Response;
@@ -59,8 +58,7 @@ class DefaultController extends Controller
                         'allow'         => false,
                         'matchCallback' => function ($rule, $action)
                         {
-                            $writeLockEnabled = ArrayHelper::getValue(\Yii::$app->params, 'writeLockEnabled', true);
-                            return $writeLockEnabled && \Yii::$app->params[ 'environment' ] === 'prod';
+                            return \Yii::$app->params[ 'environment' ] === 'prod';
                         },
                         'denyCallback'  => AuthHelper::denyCallback(function ()
                         {
