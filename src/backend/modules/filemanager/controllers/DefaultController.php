@@ -59,8 +59,8 @@ class DefaultController extends Controller
                         'allow'         => false,
                         'matchCallback' => function ($rule, $action)
                         {
-                            $writeLockConfig = ArrayHelper::getValue(\Yii::$app->params, 'writeLock', []);
-                            return array_key_exists(\Yii::$app->params[ 'environment' ], $writeLockConfig);
+                            $writeLockEnabled = ArrayHelper::getValue(\Yii::$app->params, 'writeLockEnabled', true);
+                            return $writeLockEnabled && \Yii::$app->params[ 'environment' ] === 'prod';
                         },
                         'denyCallback'  => AuthHelper::denyCallback(function ()
                         {
