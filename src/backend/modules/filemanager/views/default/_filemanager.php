@@ -25,7 +25,7 @@ $this->params[ 'moduleBundle' ] = FilemanagerAsset::register($this);
             /** @var Mediafile $model */
             if (!$model->isImage())
             {
-                return Html::a(Html::img(Yii::getAlias('@web/img/file.png')) . '<span class="checked fa fa-check"></span><div class="after"></div>',
+                return Html::a(Html::img($this->assetManager->getAssetUrl($this->params[ 'moduleBundle' ], 'img/file.png')) . '<span class="checked fa fa-check"></span><div class="after"></div>',
                     '#mediafile', [ 'data-key' => $key ]);
             }
             else if (file_exists(substr($model->getDefaultThumbUrl($this->params[ 'moduleBundle' ]->baseUrl), 1)))

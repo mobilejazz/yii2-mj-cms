@@ -84,7 +84,13 @@ class SiteController extends Controller
         {
             $current_slug = $content_slug->content->getCurrentSlug($content_slug->language);
 
-            $link = '/' . $current_slug->language . '/' . $current_slug->slug;
+            $link = '/';
+
+            if(Locale::isMultiLanguageSite()) {
+                $link .= $current_slug->language . '/';
+            }
+
+            $link .= $current_slug->slug;
 
             return $this->redirect($link);
         }

@@ -4,7 +4,6 @@ namespace mobilejazz\yii2\cms\backend\controllers;
 
 use dmstr\bootstrap\Tabs;
 use mobilejazz\yii2\cms\backend\models\search\LocaleSearch;
-use mobilejazz\yii2\cms\backend\modules\i18n\controllers\MessageController;
 use mobilejazz\yii2\cms\backend\modules\i18n\models\I18nMessage;
 use mobilejazz\yii2\cms\backend\modules\i18n\models\I18nSourceMessage;
 use mobilejazz\yii2\cms\common\AuthHelper;
@@ -71,8 +70,7 @@ class LocaleController extends Controller
                         'allow'        => false,
                         'denyCallback' => AuthHelper::denyCallback(function ()
                         {
-                            Yii::$app->session->setFlash('error',
-                                Yii::t('backend', 'Sorry, only Administrators and Translators can edit/create/update Languages.'));
+                            Yii::$app->session->setFlash('error', Yii::t('backend', 'Sorry, only Administrators and Translators can edit/create/update Languages.'));
 
                         }),
                     ],
@@ -121,8 +119,7 @@ class LocaleController extends Controller
                         // 1 - Menu item translations.
                         // ========================================
                         /** @var Menu[] $menus */
-                        $menus = Menu::find()
-                                     ->all();
+                        $menus = Menu::find()->all();
                         foreach ($menus as $menu)
                         {
                             foreach ($menu->menuItems as $item)
@@ -145,8 +142,7 @@ class LocaleController extends Controller
                         // 2 - Content fields, slugs and content_meta_tags
                         // ========================================
                         /** @var ContentSource[] $content_source */
-                        $content_source = ContentSource::find()
-                                                       ->all();
+                        $content_source = ContentSource::find()->all();
                         foreach ($content_source as $content)
                         {
                             // ====== SLUG ===== //
@@ -229,8 +225,7 @@ class LocaleController extends Controller
                         // 3 - FORMS.
                         // ========================================
                         /** @var WebForm[] $forms */
-                        $forms = WebForm::find()
-                                        ->all();
+                        $forms = WebForm::find()->all();
                         foreach ($forms as $webForm)
                         {
                             /** @var WebFormDetail $currentDetails */
@@ -247,9 +242,7 @@ class LocaleController extends Controller
 
                             // ====== WF ROW ===== //
                             /** @var WebFormRow[] $webFormRows */
-                            $webFormRows = WebFormRow::find()
-                                                     ->where([ 'web_form' => $webForm->id, 'language' => $base ])
-                                                     ->all();
+                            $webFormRows = WebFormRow::find()->where([ 'web_form' => $webForm->id, 'language' => $base ])->all();
 
                             /** @var WebFormRow $row */
                             foreach ($webFormRows as $row)
@@ -291,8 +284,7 @@ class LocaleController extends Controller
                         // ========================================
                         // FIRST DUPLICATE ANY STRING ALREADY FOUND.
                         /** @var I18nSourceMessage[] $source_messages */
-                        $source_messages = I18nSourceMessage::find()
-                                                            ->all();
+                        $source_messages = I18nSourceMessage::find()->all();
                         foreach ($source_messages as $sm)
                         {
                             try
@@ -319,8 +311,8 @@ class LocaleController extends Controller
 
                         // Run script to extract and clean up all the yii:t calls
                         //extract messages command
-                        $controller = new MessageController('message', Yii::$app);
-                        $controller->runAction('extract', [ '@common/config/extract.php' ]);
+                        //$controll7er = new MessageController('message', Yii::$app);
+                        //$controller->runAction('extract', [ '@common/config/extract.php' ]);
 
                         //extract messages command end
                         // Try and commit the batch.
@@ -372,8 +364,7 @@ class LocaleController extends Controller
     {
         if ($id == 1)
         {
-            Yii::$app->getSession()
-                     ->setFlash('error', Yii::t('backend', 'Attention. The default language can not be deleted.'));
+            Yii::$app->getSession()->setFlash('error', Yii::t('backend', 'Attention. The default language can not be deleted.'));
 
             return $this->redirect(Url::previous());
         }
@@ -422,14 +413,12 @@ class LocaleController extends Controller
             $rows += WebFormRow::deleteAll([ 'language' => Locale::getIdentifier($model) ]);
             $rows += WebFormRowField::deleteAll([ 'language' => Locale::getIdentifier($model) ]);
 
-            Yii::$app->getSession()
-                     ->setFlash('success', Yii::t('backend', "A total of {rows} translations have been deleted.", [ 'rows' => $rows ]));
+            Yii::$app->getSession()->setFlash('success', Yii::t('backend', "A total of {rows} translations have been deleted.", [ 'rows' => $rows ]));
         }
         catch (\Exception $e)
         {
             $msg = (isset($e->errorInfo[ 2 ])) ? $e->errorInfo[ 2 ] : $e->getMessage();
-            \Yii::$app->getSession()
-                      ->setFlash('error', $msg);
+            \Yii::$app->getSession()->setFlash('error', $msg);
 
             return $this->redirect(Url::previous());
         }
@@ -501,8 +490,7 @@ class LocaleController extends Controller
             if ($model->default == 1)
             {
                 /** @var Locale[] $locales */
-                $locales = Locale::find()
-                                 ->all();
+                $locales = Locale::find()->all();
 
                 foreach ($locales as $l)
                 {
