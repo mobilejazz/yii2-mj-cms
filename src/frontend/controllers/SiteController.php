@@ -158,11 +158,16 @@ class SiteController extends Controller
             }
         }
 
-        return $this->render('content', [
+        $params = [
             'model' => $model,
             'lang'  => $lang,
             'slug'  => $content_slug,
-        ]);
+        ];
+
+        // ensure params are available in the layout aswell
+        $this->view->params = ArrayHelper::merge(Yii::$app->params, $params);
+
+        return $this->render('content', $params);
     }
 
 
