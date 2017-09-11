@@ -16,6 +16,8 @@ use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
 use yii\helpers\Url;
 
+$order = !empty($rows) ? WebFormRow::getMaxOrder($rows[ 0 ]) : null;
+
 $this->title                     = $model->isNewRecord ? Yii::t('backend', 'Add New Form') : Yii::t('backend',
         'Web Form') . ': ' . $model->getTitle();
 $this->params[ 'breadcrumbs' ][] = [
@@ -135,9 +137,17 @@ $form                            = ActiveForm::begin();
                     ],
                 ]);
 
-                echo $form->field($row, "[$key]legend")
+                echo "<div class='row'>";
+
+                echo $form->field($row, "[$key]legend", [ 'options' => [ 'class' => 'col-md-6', ] ])
                           ->textInput()
                           ->hint(Yii::t('backend', 'You can set a legend for this row if you wish to, if not, leave empty'));
+
+                echo $form->field($row, "[$key]internal_name", [ 'options' => [ 'class' => 'col-md-6', ] ])
+                    ->textInput()
+                    ->hint(Yii::t('backend', 'You can set a internal name for this row if you wish to, if not, leave empty. This internal name never will be show on the website.'));
+
+                echo "</div>";
 
                 /**
                  *  GO THROUGH THE FIELDS IN THE ORDER THEY SHOULD BE DISPLAYED.
@@ -256,7 +266,7 @@ $form                            = ActiveForm::begin();
             echo Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'Add new Row'), Url::to([
                 'add-row',
                 'id'    => $model->id,
-                'order' => WebFormRow::getMaxOrder($rows[ 0 ]),
+                'order' => $order,
             ]), [
                 'class' => 'btn btn-primary',
             ]);

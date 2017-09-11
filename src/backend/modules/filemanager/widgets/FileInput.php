@@ -1,4 +1,5 @@
 <?php
+
 namespace mobilejazz\yii2\cms\backend\modules\filemanager\widgets;
 
 use mobilejazz\yii2\cms\backend\modules\filemanager\assets\FileInputAsset;
@@ -161,7 +162,7 @@ class FileInput extends InputWidget
             'inputId'        => $this->options[ 'id' ],
             'btnId'          => $this->buttonOptions[ 'id' ],
             'frameId'        => $this->options[ 'id' ] . '-frame',
-            'frameSrc'       => "/admin/filemanager/default/file-manager-modal-content",
+            'frameSrc'       => \Yii::$app->params[ 'adminBaseUrl' ] . "/filemanager/default/file-manager-modal-content",
             'thumb'          => $this->thumb,
             'imageContainer' => $this->imageContainer,
             'pasteData'      => $this->pasteData,

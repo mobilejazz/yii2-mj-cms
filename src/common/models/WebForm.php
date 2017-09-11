@@ -52,7 +52,8 @@ class WebForm extends ActiveRecord
                       ->orderBy([ 'updated_at' => SORT_DESC ])
                       ->one();
 
-        return $model->title;
+        if ($model)
+            return $model->title;
     }
 
 

@@ -872,7 +872,7 @@ class ContentSourceController extends Controller
 
         if (Yii::$app->request->isPost)
         {
-            $model->publish_date_string = $_POST[ 'ContentSource' ][ 'publish_date_string' ];
+            // $model->publish_date_string = $_POST[ 'ContentSource' ][ 'publish_date_string' ];
             // $model->published_at        = strtotime($model->publish_date_string);
 
             if ($model->load($_POST))
@@ -937,6 +937,9 @@ class ContentSourceController extends Controller
                         if ($field_model->hasErrors())
                         {
                             $field_errors[ $field->id ] = $field_model->errors;
+
+                            $component->addError($field->id, $field_model->errors );
+
                         }
                         // Validation has succeeded.
                         else
@@ -950,7 +953,7 @@ class ContentSourceController extends Controller
             // RELOAD EVERYTHING
             $model      = $this->findModel($id);
             $slug       = $model->getCurrentSlug(Yii::$app->language);
-            $components = $model->getOrderedContentComponents(Yii::$app->language);
+            //$components = $model->getOrderedContentComponents(Yii::$app->language);
         }
 
         if (\Yii::$app->request->isAjax)

@@ -83,7 +83,12 @@ class ContentSource extends ActiveRecord
                    ->orderBy([ 'updated_at' => SORT_DESC ])
                    ->one();
 
-        return $cs->title;
+        if($cs){
+            return $cs->title;
+        }
+
+        return "";
+
     }
 
 
@@ -378,6 +383,16 @@ class ContentSource extends ActiveRecord
                           ->where([ 'content_id' => $this->id, 'language' => Locale::getIdentifier($locale) ])
                           ->orderBy([ 'updated_at' => SORT_DESC ])
                           ->one();
+    }
+
+    public function getOldSlugs($lang)
+    {
+        $locale = Locale::findByIdentifier($lang);
+
+        return ContentSlug::find()
+            ->where([ 'content_id' => $this->id, 'language' => Locale::getIdentifier($locale) ])
+            ->orderBy([ 'updated_at' => SORT_ASC ])
+            ->all();
     }
 
 

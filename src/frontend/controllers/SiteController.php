@@ -15,6 +15,7 @@ use yii;
 use yii\base\InvalidParamException;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\web\ForbiddenHttpException;
@@ -158,11 +159,16 @@ class SiteController extends Controller
             }
         }
 
-        return $this->render('content', [
+        $params = [
             'model' => $model,
             'lang'  => $lang,
             'slug'  => $content_slug,
-        ]);
+        ];
+
+        // ensure params are available in the layout aswell
+        $this->view->params = ArrayHelper::merge(Yii::$app->params, $params);
+
+        return $this->render('content', $params);
     }
 
 
