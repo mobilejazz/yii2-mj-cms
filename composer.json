@@ -1,7 +1,7 @@
 {
   "name": "mobilejazz/yii2-mj-cms",
   "description": "Yii 2 CMS Module developed by MobileJazz",
-  "version": "dev-develop",
+  "version": "0.1.0.12",
   "keywords": [
     "yii2",
     "extension",
@@ -62,7 +62,7 @@
     "bower-asset/foundation": "5.5.*",
     "bower-asset/foundation-datepicker": "1.5.*",
     "bower-asset/iframe-resizer": "3.5.*",
-    "bower-asset/sweetalert": "*",
+    "bower-asset/sweetalert": "1.1.3",
     "bower-asset/clipboard": "1.5.*",
     "bower-asset/spin.js": "2.3.*",
     "bower-asset/html5-history-api": "4.2.7.0",
