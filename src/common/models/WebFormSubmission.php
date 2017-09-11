@@ -61,7 +61,7 @@ class WebFormSubmission extends TimeStampActiveRecord
             $data         = json_decode($submission->fields, true);
             foreach ($data as $field)
             {
-                $atr_name  = str_replace(" ", "_", substr(strip_tags(stripslashes(strtolower($field[ 'field_name' ]))), 0, 10));
+                $atr_name  = Inflector::slug($field['field_name'], '_');
                 $atr_value = stripslashes(strip_tags($field[ 'user_response' ]));
                 $model->defineAttribute($atr_name, $atr_value);
                 if (in_array($atr_name, $columns_left))
@@ -104,7 +104,7 @@ class WebFormSubmission extends TimeStampActiveRecord
             $data = json_decode($submission->fields, true);
             foreach ($data as $field)
             {
-                $atr_name = Inflector::slug($field['field_name']);
+                $atr_name = Inflector::slug($field['field_name'], '_');
 
                 if (!in_array($atr_name, $columns))
                 {
