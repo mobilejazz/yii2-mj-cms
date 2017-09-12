@@ -1,7 +1,7 @@
 {
   "name": "mobilejazz/yii2-mj-cms",
   "description": "Yii 2 CMS Module developed by MobileJazz",
-  "version": "dev-develop"
+  "version": "dev-develop",
   "keywords": [
     "yii2",
     "extension",
