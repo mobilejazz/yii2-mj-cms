@@ -228,21 +228,21 @@ $form                            = ActiveForm::begin([
             ]);
 
             $slugs = $model->getOldSlugs(Yii::$app->language);
-
+            $label = Yii::t('backend', 'Previous Slugs');
             foreach ($slugs as $slug) {
-
-                echo $form->field($slug, 'slug')
-                    ->widget(MultipleInput::className())
-
-                    ->textInput([
-                        'placeholder' => $slug->slug,
-                        'readonly' => true,
-                        'options' => [
-                            'style' => 'width: 250px;',
-                        ],
-                    ])->label($label);
-
-                if (next($slugs) == false) { $label = 'Current Slug: '; }else{ $label = ''; }
+                $lastSlug = end($slugs)->id === $slug->id;
+                if($lastSlug){
+                    $label = Yii::t('backend', 'Current Slug');
+                }
+                echo Html::label($label);
+                echo '<pre>'.$slug->slug.'</pre>';
+                if(!$lastSlug){
+                    echo Html::checkbox('RemoveSlug[]',false,array('value' => $slug->id));
+                    echo '&nbsp;&nbsp;'.Yii::t('backend', 'Remove Slug').' ?';
+                    echo '<br/>';
+                    echo '<br/>';
+                }
+                $label =  '';
             }
 
             BoxPanel::end();

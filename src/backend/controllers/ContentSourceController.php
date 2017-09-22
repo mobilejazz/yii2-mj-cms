@@ -902,6 +902,14 @@ class ContentSourceController extends Controller
                     $slug->save();
                 }
             }
+            if(isset($_POST['RemoveSlug'])){
+                $slugs = $model->getOldSlugs(Yii::$app->language);
+                foreach ($slugs as $old_slug){
+                    if(in_array($old_slug->id,$_POST['RemoveSlug'])){
+                        $old_slug->delete();
+                    }
+                }
+            }
             if (Model::loadMultiple($components, $_POST))
             {
                 /** @var ContentComponent $component */
