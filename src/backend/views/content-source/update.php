@@ -180,7 +180,7 @@ $form                            = ActiveForm::begin([
 
             echo $form->field($model, 'meta_rels')
                 ->widget(MultipleInput::className(), [
-                    'limit' => 7,
+                    'max' => 7,
                     'columns' => [
                         [
                             'name' => 'rel',

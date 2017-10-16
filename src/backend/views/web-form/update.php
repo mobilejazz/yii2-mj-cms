@@ -59,7 +59,7 @@ $form                            = ActiveForm::begin();
 
         echo $form->field($details, 'emails')
                   ->widget(MultipleInput::className(), [
-                      'limit'             => 6,
+                      'max'             => 6,
                       'allowEmptyList'    => false,
                       'enableGuessTitle'  => true,
                       'addButtonPosition' => MultipleInput::POS_ROW,
