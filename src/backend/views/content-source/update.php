@@ -135,7 +135,7 @@ $form                            = ActiveForm::begin([
 
             echo $form->field($model, 'meta_tags')
                 ->widget(MultipleInput::className(), [
-                    'limit' => 7,
+                    'max' => 7,
                     'columns' => [
                         [
                             'name' => 'name',
