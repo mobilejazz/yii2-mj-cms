@@ -4,7 +4,7 @@ use mobilejazz\yii2\cms\common\models\ContentSlug;
 use mobilejazz\yii2\cms\common\models\ContentSource;
 use mobilejazz\yii2\cms\common\models\Views;
 use mobilejazz\yii2\cms\common\widgets\BoxPanel;
-use unclead\widgets\MultipleInput;
+use unclead\multipleinput\MultipleInput;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Alert;
 use yii\bootstrap\Html;

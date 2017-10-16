@@ -11,7 +11,7 @@ use mobilejazz\yii2\cms\common\models\WebFormRow;
 use mobilejazz\yii2\cms\common\models\WebFormRowField;
 use mobilejazz\yii2\cms\common\widgets\BoxPanel;
 use trntv\aceeditor\AceEditor;
-use unclead\widgets\MultipleInput;
+use unclead\multipleinput\MultipleInput;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
 use yii\helpers\Url;
