@@ -42,7 +42,7 @@
     "2amigos/yii2-file-upload-widget": "1.0.*",
     "2amigos/yii2-date-picker-widget": "1.0.*",
     "unclead/yii2-multiple-input": "2.11.*",
-    "lavrentiev/yii2-toastr": "2.0.*",
+    "lavrentiev/yii2-toastr": "2.0.1",
     "2amigos/yii2-translateable-behavior": "0.1.*",
     "bower-asset/admin-lte": "2.3.*",
     "bower-asset/font-awesome": "4.5.*",
