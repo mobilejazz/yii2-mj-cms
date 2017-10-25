@@ -43,9 +43,11 @@ class NavUtils
 
             $lang = Yii::$app->language;
 
-            $translated = $menu->getCurrentTranslation($lang);
+            $menu_item_translation = $menu->getCurrentTranslation($lang);
 
-            $label = $translated->title;
+            $label = $menu_item_translation->title;
+            $url = $menu_item_translation->link;
+            $css_class = $menu->class;
 
             if (isset($menu->content_id) && $menu->content_id != null)
             {
@@ -59,18 +61,11 @@ class NavUtils
                 ]);
 
             }
-            else if (isset($translation) && $translation != null)
-            {
-                $url = $translated->link;
-            }
-            else
-            {
-                $url = $translated->link;
-            }
 
             $result = [
                 'label' => $label,
                 'url'   => $url,
+                'class'   => $css_class,
                 'items' => []
             ];
 
