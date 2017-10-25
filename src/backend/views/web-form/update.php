@@ -11,7 +11,7 @@ use mobilejazz\yii2\cms\common\models\WebFormRow;
 use mobilejazz\yii2\cms\common\models\WebFormRowField;
 use mobilejazz\yii2\cms\common\widgets\BoxPanel;
 use trntv\aceeditor\AceEditor;
-use unclead\widgets\MultipleInput;
+use unclead\multipleinput\MultipleInput;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
 use yii\helpers\Url;
@@ -59,7 +59,7 @@ $form                            = ActiveForm::begin();
 
         echo $form->field($details, 'emails')
                   ->widget(MultipleInput::className(), [
-                      'limit'             => 6,
+                      'max'             => 6,
                       'allowEmptyList'    => false,
                       'enableGuessTitle'  => true,
                       'addButtonPosition' => MultipleInput::POS_ROW,

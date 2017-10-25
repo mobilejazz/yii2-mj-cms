@@ -4,7 +4,7 @@ use mobilejazz\yii2\cms\common\models\ContentSlug;
 use mobilejazz\yii2\cms\common\models\ContentSource;
 use mobilejazz\yii2\cms\common\models\Views;
 use mobilejazz\yii2\cms\common\widgets\BoxPanel;
-use unclead\widgets\MultipleInput;
+use unclead\multipleinput\MultipleInput;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Alert;
 use yii\bootstrap\Html;
@@ -135,7 +135,7 @@ $form                            = ActiveForm::begin([
 
             echo $form->field($model, 'meta_tags')
                 ->widget(MultipleInput::className(), [
-                    'limit' => 7,
+                    'max' => 7,
                     'columns' => [
                         [
                             'name' => 'name',
@@ -180,7 +180,7 @@ $form                            = ActiveForm::begin([
 
             echo $form->field($model, 'meta_rels')
                 ->widget(MultipleInput::className(), [
-                    'limit' => 7,
+                    'max' => 7,
                     'columns' => [
                         [
                             'name' => 'rel',
