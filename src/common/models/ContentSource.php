@@ -17,6 +17,8 @@ use yii\helpers\ArrayHelper;
  * @property integer               $updater_id
  * @property integer               $status
  * @property integer               $is_homepage
+ * @property integer               $sort
+ * @property string               $thumbnail
  * @property integer               $published_at
  * @property integer               $created_at
  * @property integer               $updated_at
@@ -540,10 +542,11 @@ class ContentSource extends ActiveRecord
                     'created_at',
                     'updated_at',
                     'published_at',
+                    'sort',
                 ],
                 'integer'
             ],
-            [ [ 'view' ], 'string' ],
+            [ [ 'view','thumbnail' ], 'string' ],
         ];
     }
 

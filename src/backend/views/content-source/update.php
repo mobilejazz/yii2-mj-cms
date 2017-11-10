@@ -84,6 +84,39 @@ $form                            = ActiveForm::begin([
                 'readonly' => true,
             ])
             ->label(false) ?>
+
+
+        <?= $form->field($model, 'sort', [
+            'options' => [
+                'class' => 'input-group col-xs-6',
+                'style' => 'padding: 5px; float: left;',
+            ],
+        ])
+            ->input('number',['maxlength' => true, 'placeholder' => $model->sort])
+            ->label(Yii::t('backend', 'Sort')) ?>
+
+        <?= $form->field($model, 'thumbnail',[
+            'options' => [
+                'class' => 'input-group col-xs-6',
+                'style' => 'padding: 5px; float: left;',
+            ]
+        ])->widget(FileInput::className(), [
+
+            'buttonTag'            => 'button',
+            'buttonName'           => 'Browse',
+            'buttonOptions'        => [ 'class' => 'btn btn-default' ],
+            'options'              => [ 'class' => 'form-control' ],
+            // Widget template
+            'template'             => '<div class="input-group">{input}<span class="input-group-btn">{button}</span></div>',
+            'thumb'                => 'original',
+            'pasteData'            => FileInput::DATA_URL,
+            'callbackBeforeInsert' => 'function(e, data) {
+        console.log(data);
+        console.log(e);
+        }',
+        ]);
+        ?>
+
         <?php
         BoxPanel::end();
 
