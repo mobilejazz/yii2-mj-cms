@@ -284,7 +284,7 @@ $form                            = ActiveForm::begin([
 
             <?= $form->field($model, 'sort', [
                 'options' => [
-                    'class' => 'input-group col-xs-12',
+                    'class' => 'form-group',
                 ],
             ])
                 ->input('number',['maxlength' => true, 'placeholder' => $model->sort])
@@ -292,7 +292,7 @@ $form                            = ActiveForm::begin([
 
             <?= $form->field($model, 'thumbnail',[
                 'options' => [
-                    'class' => 'input-group col-xs-12',
+                    'class' => 'form-group',
                 ]
             ])->widget(FileInput::className(), [
 
