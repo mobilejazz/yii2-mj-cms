@@ -4,6 +4,7 @@ use mobilejazz\yii2\cms\common\models\ContentSlug;
 use mobilejazz\yii2\cms\common\models\ContentSource;
 use mobilejazz\yii2\cms\common\models\Views;
 use mobilejazz\yii2\cms\common\widgets\BoxPanel;
+use mobilejazz\yii2\cms\backend\modules\filemanager\widgets\FileInput;
 use unclead\multipleinput\MultipleInput;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Alert;
@@ -84,6 +85,7 @@ $form                            = ActiveForm::begin([
                 'readonly' => true,
             ])
             ->label(false) ?>
+
         <?php
         BoxPanel::end();
 
@@ -278,6 +280,36 @@ $form                            = ActiveForm::begin([
             <?= $form->field($model, 'status')
                 ->dropDownList(ContentSource::status())
                 ->label(Yii::t('backend', 'Status')) ?>
+
+
+            <?= $form->field($model, 'sort', [
+                'options' => [
+                    'class' => 'form-group',
+                ],
+            ])
+                ->input('number',['maxlength' => true, 'placeholder' => $model->sort])
+                ->label(Yii::t('backend', 'Sort')) ?>
+
+            <?= $form->field($model, 'thumbnail',[
+                'options' => [
+                    'class' => 'form-group',
+                ]
+            ])->widget(FileInput::className(), [
+
+                'buttonTag'            => 'button',
+                'buttonName'           => 'Browse',
+                'buttonOptions'        => [ 'class' => 'btn btn-default' ],
+                'options'              => [ 'class' => 'form-control' ],
+                // Widget template
+                'template'             => '<div class="input-group">{input}<span class="input-group-btn">{button}</span></div>',
+                'thumb'                => 'original',
+                'pasteData'            => FileInput::DATA_URL,
+                'callbackBeforeInsert' => 'function(e, data) {
+        console.log(data);
+        console.log(e);
+        }',
+            ]);
+            ?>
 
             <!-- PUBLISH DATE -->
             <!-- <? /*= $form->field($model, 'publish_date_string')->widget(DatePicker::className(), [
