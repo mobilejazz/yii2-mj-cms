@@ -112,7 +112,7 @@ class SiteController extends Controller
         } // If the model status is a draft, check if the user is an admin.
         if ($model->status === ContentSource::STATUS_DRAFT || $model->status === ContentSource::STATUS_DELETED)
         {
-            if(!$this->context->module->previewService->validateToken()){
+            if(!$this->module->previewService->validateToken()){
                 //Get current user
                 /** @var User $user */
                 $user = \Yii::$app->user->getIdentity();
@@ -134,7 +134,7 @@ class SiteController extends Controller
 
         elseif ($model->status === ContentSource::STATUS_PRIVATE_CONTENT)
         {
-            if(!$this->context->module->previewService->validateToken()){
+            if(!$this->module->previewService->validateToken()){
                 /** @var User $user */
                 $user    = \Yii::$app->user->getIdentity();
                 $allowed = true;
