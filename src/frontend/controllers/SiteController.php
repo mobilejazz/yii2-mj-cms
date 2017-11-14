@@ -112,50 +112,54 @@ class SiteController extends Controller
         } // If the model status is a draft, check if the user is an admin.
         if ($model->status === ContentSource::STATUS_DRAFT || $model->status === ContentSource::STATUS_DELETED)
         {
-            //Get current user
-            /** @var User $user */
-            $user = \Yii::$app->user->getIdentity();
-            // If this is not an admin and we are in
-            // preview throw a ForbiddenHttpException.
-            if ($user === null || \Yii::$app->user->isGuest || $user->role === User::ROLE_USER)
-            {
-                if ($model->status == ContentSource::STATUS_DRAFT)
+            if(!\Yii::$app->previewService->validateToken()){
+                //Get current user
+                /** @var User $user */
+                $user = \Yii::$app->user->getIdentity();
+                // If this is not an admin and we are in
+                // preview throw a ForbiddenHttpException.
+                if ($user === null || \Yii::$app->user->isGuest || $user->role === User::ROLE_USER)
                 {
-                    throw new ForbiddenHttpException(Yii::t('app', "You are not allowed to see this page as it is in preview stage."));
-                }
-                else
-                {
-                    throw new NotFoundHttpException(Yii::t('app', 'It looks like the content you are trying to access has been deleted.'));
+                    if ($model->status == ContentSource::STATUS_DRAFT)
+                    {
+                        throw new ForbiddenHttpException(Yii::t('app', "You are not allowed to see this page as it is in preview stage."));
+                    }
+                    else
+                    {
+                        throw new NotFoundHttpException(Yii::t('app', 'It looks like the content you are trying to access has been deleted.'));
+                    }
                 }
             }
         }
 
         elseif ($model->status === ContentSource::STATUS_PRIVATE_CONTENT)
         {
-            /** @var User $user */
-            $user    = \Yii::$app->user->getIdentity();
-            $allowed = true;
-            if (\Yii::$app->user->isGuest || $user->status == User::STATUS_AWAITING_VALIDATION || $user->status == User::STATUS_INVALIDATED)
-            {
-                $allowed = false;
-            }
-
-            if (!$allowed)
-            {
-                if (\Yii::$app->user->isGuest)
+            if(!\Yii::$app->previewService->validateToken()){
+                /** @var User $user */
+                $user    = \Yii::$app->user->getIdentity();
+                $allowed = true;
+                if (\Yii::$app->user->isGuest || $user->status == User::STATUS_AWAITING_VALIDATION || $user->status == User::STATUS_INVALIDATED)
                 {
-                    \Yii::$app->session->setFlash('warning', "<div class='important'>" . \Yii::t('app',
-                            'Only Validated Users may see this content. Please sign in or register to see it.') . "</div>");
-                }
-                else if ($user->status == User::STATUS_AWAITING_VALIDATION)
-                {
-                    \Yii::$app->session->setFlash('warning', "<div class='important'>" . \Yii::t('app',
-                            'Your profile is under review. Once validated, you will be able to access the "{content}" content. Thank you', [
-                                'content' => $model->getCurrentSlug($lang)->title,
-                            ]) . "</div>");
+                    $allowed = false;
                 }
 
-                return $this->redirect(Yii::t('url', '/login'));
+                if (!$allowed)
+                {
+                    if (\Yii::$app->user->isGuest)
+                    {
+                        \Yii::$app->session->setFlash('warning', "<div class='important'>" . \Yii::t('app',
+                                'Only Validated Users may see this content. Please sign in or register to see it.') . "</div>");
+                    }
+                    else if ($user->status == User::STATUS_AWAITING_VALIDATION)
+                    {
+                        \Yii::$app->session->setFlash('warning', "<div class='important'>" . \Yii::t('app',
+                                'Your profile is under review. Once validated, you will be able to access the "{content}" content. Thank you', [
+                                    'content' => $model->getCurrentSlug($lang)->title,
+                                ]) . "</div>");
+                    }
+
+                    return $this->redirect(Yii::t('url', '/login'));
+                }
             }
         }
 

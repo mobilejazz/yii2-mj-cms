@@ -99,6 +99,10 @@ return [
         ],
         'urlManagerFrontend' => [
             'class' => 'mobilejazz\yii2\cms\frontend\components\FrontendUrlRules'
-        ]
+        ],
+        'previewService' => [
+            'class' => 'mobilejazz\yii2\cms\common\components\PreviewService',
+            'salt' => 'define random salt!'
+        ],
     ]
 ];

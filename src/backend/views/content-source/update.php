@@ -327,6 +327,7 @@ $form                            = ActiveForm::begin([
                     $this->context->module->urlManagerFrontend->createBaseUrl('cmsfrontend/site/content', [
                         'lang' => Yii::$app->language,
                         'slug' => $slug->slug,
+                        \Yii::$app->previewService->url_param => \Yii::$app->previewService->getToken()
                     ]), [
                         'class' => 'btn btn-default viewContent',
                         'target' => '_blank',
