@@ -146,6 +146,7 @@ Pjax::begin([
                     $link = $this->context->module->urlManagerFrontend->createBaseUrl('cmsfrontend/site/content', [
                         'lang' => Yii::$app->language,
                         'slug' => $slug,
+                        $this->context->module->previewService->url_param => $this->context->module->previewService->getToken()
                     ]);
 
                     return $link;
